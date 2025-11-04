@@ -1,200 +1,358 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<title>Sigma Games 🎮</title>
+<html lang="en"><head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="images/ico.ico" type="image/x-icon">
+        <link rel="stylesheet" href="style.css">
+        <title>Home | Sigmagames</title>
 
-<style>
-    body {
-        background: #0d0f13;
-        color: white;
-        font-family: Arial, sans-serif;
-        text-align: center;
-        margin: 0;
-        padding: 20px;
+        <meta name="description" content="sigmagames">
+        <meta property="og:site_name" content="seraph">
+        <meta property="og:title" content="seraph">
+        <meta property="og:type" content="website">
+        <meta property="og:description" content="seraph; an open source unblocked games website hosting 100+ games with downloadable support, a clean and centralised user interface and no iframe embedding">
+  </head>
+  <script>
+      
+  // JavaScript for updating the cursor position
+  document.addEventListener('mousemove', (e) => {
+    const circleCursor = document.querySelector('.cursor');
+    const scrollX = window.scrollX || window.pageXOffset; // Horizontal scroll position
+    const scrollY = window.scrollY || window.pageYOffset; // Vertical scroll position
+
+    // Calculate the cursor position, considering scroll position and viewport width
+    const cursorX = e.clientX + scrollX;
+    const maxCursorX = window.innerWidth - circleCursor.clientWidth; // Maximum cursor X position
+    circleCursor.style.left = Math.min(cursorX, maxCursorX) + 'px';
+    circleCursor.style.top = e.clientY + scrollY + 'px';
+  });
+
+  </script>
+  <style>
+      @font-face {
+    font-family: 'Ubuntu';
+    src: url('../fonts/Ubuntu.woff2') format('woff2'),
+         url('../fonts/Ubuntu.woff') format('woff'),
+         url('../fonts/Ubuntu.ttf') format('truetype'),
+         url('../fonts/Ubuntu.otf') format('otf');
+}
+
+@font-face {
+    font-family: 'PixelifySans';
+    src: url('../fonts/pixelifysans.woff2') format('woff2'),
+         url('../fonts/pixelifysans.woff') format('woff'),
+         url('../fonts/pixelifysans.ttf') format('truetype'),
+         url('../fonts/pixelifysans.otf') format('otf');
+}
+
+@font-face {
+    font-family: 'Inconsolata';
+    src: url('../fonts/Inconsolata.woff2') format('woff2'),
+         url('../fonts/Inconsolata.woff') format('woff'),
+         url('../fonts/Inconsolata.ttf') format('truetype'),
+         url('../fonts/Inconsolata.otf') format('otf');
+}
+
+@font-face {
+    font-family: 'Raleway';
+    src: url('../fonts/raleway.woff2') format('woff2'),
+        url('../fonts/raleway.woff') format('woff'),
+        url('../fonts/raleway.ttf') format('truetype'),
+        url('../fonts/raleway.otf') format('otf');
+}
+
+:root {
+    --background-image: url('../images/homebg.png');
+    --font-family: 'Ubuntu', sans-serif;
+    --text-color: #fff;
+    --background-color: black;
+    --border-color1: #000000;
+    --border-color2: #ffffff;
+    --hover-color: #1a1818;
+    --text-glow: #000000
+}
+
+:root.theme-azurite {
+    --background-image: url('../images/homebg_5.png');
+    --font-family: 'Ubuntu', sans-serif;
+    --text-color: #c8d9e9; 
+    --border-color1: #2d6cc4;
+    --border-color2: #111633;
+    --background-color: #495092;
+    --hover-color: #373e7d;
+    --text-glow: #4e5bd0;
+}
+
+:root.theme-retro {
+    --background-image: url('../images/homebg_2.png');
+    --font-family: 'PixelifySans', 'Ubuntu', sans-serif;
+    --text-color: #ffffff; 
+    --border-color1: #2fce56;
+    --border-color2: #375945;
+    --background-color: #2f8154;
+    --hover-color: #258a79;
+    --text-glow: #4ed089;
+}
+
+:root.theme-cosmic {
+    --background-image: url('../images/homebg_1.png');
+    --font-family: 'Inconsolata', 'Ubuntu', sans-serif;
+    --text-color: #ffffff; 
+    --border-color1: #1e1d1f;
+    --border-color2: #322c2c;
+    --background-color: #121212;
+    --hover-color: #181a1a;
+    --text-glow: #d6c9c9;
+}
+  
+
+:root.theme-molten {
+    --background-image: url('../images/homebg_3.png');
+    --font-family: 'Ubuntu', sans-serif;
+    --text-color: #f58484; 
+    --border-color1: #e70e0e;
+    --border-color2: #742e2e;
+    --background-color: #892525;
+    --hover-color: #9b2121;
+    --text-glow: #dc1010;
+}
+
+:root.theme-amethyst {
+    --background-image: url('../images/homebg_4.png');
+    --font-family: 'Raleway', sans-serif;
+    --text-color: #c284f5; 
+    --border-color1: #6c0ee7;
+    --border-color2: #4c1587;
+    --background-color: #502589;
+    --hover-color: #5f24ae;
+    --text-glow: #662589;
+}
+  
+body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-family);
+    display: flex;
+    background-color: var(--background-color); 
+    animation: mainHeaderAnimation 2s forwards;
+    cursor: none;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+  
+body::-webkit-scrollbar {
+    width: 0;
+}
+  
+.content-side {
+    width: 100%;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: mainHeaderAnimation 1s ease-in-out forwards;
+    background-image: var(--background-image);
+    background-size: cover;
+}
+  
+h1 {
+    font-size: 96px;
+    font-family: var(--font-family);
+    text-shadow: 0 0 10px var(--text-color),
+                 0 0 10px var(--text-glow),
+                 0 0 30px var(--text-glow),
+                 0 0 40px var(--text-color),
+                 0 0 50px var(--text-glow),
+                 0 0 60px var(--text-color),
+                 0 0 70px var(--text-glow),
+                 0 0 80px #000000;
+    margin-bottom: 0px;
+}
+  
+h2 {
+    font-size: 20px;
+}
+  
+p {
+    font-size: 18px;
+    margin-bottom: 2px;
+    padding-left: 10%;
+    padding-right: 10%;
+    text-align: center;
+    text-shadow: 5px 5px 5px var(--text-glow);
+    animation: paragraphTween 1.2s ease-in-out forwards;
+}
+  
+.linkp a {
+    font-size: 20px;
+    text-align: center;
+    border: 3px solid transparent;
+    transition: 0.15s ease-in-out;
+    text-shadow: 5px 5px 5px var(--text-glow);
+}
+  
+.linkp a:hover {
+    color: rgb(199, 192, 192);
+}
+  
+a {
+    font-size: 18px;
+    text-decoration: underline;
+    color: var(--text-color);
+    cursor: none;
+    text-shadow: 5px 5px 5px var(--text-glow);
+}
+  
+.gamesbutton {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    width: 50%;
+    max-width: 250px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 28px;
+    margin: 0px;
+    cursor: none;
+    transition: background-color 0.15s ease-in-out;
+  
+    border: 3px solid transparent;
+    border-image: linear-gradient(45deg, rgb(0, 0, 0), rgb(255, 255, 255));
+    border-image-slice: 1;
+    border-radius: 4px;
+    animation: borderAnimation 1s infinite alternate;
+    animation-delay: calc(var(--delay) * 1ms);
+}
+  
+.gamesbutton:hover {
+    background-color: var(--hover-color);
+}
+  
+.cursor {
+    width: 7px;
+    height: 7px;
+    background-color: var(--text-color);
+    border-radius: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    opacity: 0.8;
+    z-index: 10000;
+}
+  
+@keyframes mainHeaderAnimation {
+    0% {
+        opacity: 0;
+        filter: blur(0px);
+        transform: translateY(-30%);
     }
-
-    button, a.game-btn {
-        background: #1a1f29;
-        color: #d6eaff;
-        border: 2px solid #6aa9ff;
-        padding: 12px 20px;
-        border-radius: 10px;
-        display: inline-block;
-        margin: 8px;
-        font-size: 18px;
-        text-decoration: none;
-        cursor: pointer;
-        transition: 0.25s;
-        width: 240px;
-        text-align: center;
+    100% {
+        opacity: 1;
+        filter: blur(0px);
+        transform: translateY(0%);
     }
-
-    button:hover, a.game-btn:hover {
-        background: #6aa9ff;
-        color: black;
-        box-shadow: 0 0 18px #6aa9ff;
-        transform: scale(1.05);
+}
+  
+@keyframes paragraphTween {
+    0% {
+        transform: translateX(-5%);
     }
-
-    #anel {
-        display: none;
-        margin-top: 30px;
+    100% {
+        transform: translateX(0%);
     }
-
-    .grid {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin-top: 25px;
-        gap: 12px;
+}
+  
+@keyframes borderAnimation {
+    0% {
+        border-image-source: linear-gradient(45deg, var(--border-color1), var(--border-color2));
     }
-</style>
-
-<script>
-    function togglePanel() {
-        const panel = document.getElementById('anel');
-        panel.style.display = (panel.style.display === 'none') ? 'block' : 'none';
+    100% {
+        border-image-source: linear-gradient(45deg, var(--border-color2), var(--border-color1));
     }
+}
+  
+  </style>
+  <style>
+         #buttons{
+            display: none;
+           
+        }
+        
+    </style>
 
-    function cloak(url) {
-        let win = window.open("about:blank", "_blank");
-        let iframe = win.document.createElement("iframe");
-        iframe.src = url;
-        iframe.style = "position:fixed;top:0;left:0;width:100%;height:100%;border:none;";
-        win.document.body.style.margin = "0";
-        win.document.body.appendChild(iframe);
-    }
-</script>
-</head>
 
-<body>
 
-<p>
-    17 U.S. Code § 107 - Fair Use Notice<br><br>
-    This site is for **after-school** use only. Developers are not responsible for misuse.
+    <script>
+        function togglePanel() {
+            const panel = document.getElementById('buttons');
+
+            if (panel.style.display === 'none') {
+                panel.style.display = 'block';
+            } else {
+                panel.style.display = 'none';
+            }
+            
+       
+    </script>
+  <body>
+      <div class="cursor"></div>
+      <div class="content-side">
+          <h1 class="typewriter"><span id="cursor"></span></h1>
+          <h2>version 1.1 (release)</h2>
+          <br>
+          
+          
+          <p>
+    17 U.S. Code § 107 - Limitations on exclusive rights: Fair use
+
+The Developers of this Project shall NOT be Held Responsible for Misuse or Exploitation of this Website.
+
+This is ONLY for AFTER School Use when Given Permission from the Guardian(s) Present.
+Users are NOT expected to use this website during school.
+Developers are not in Control of misuse of this form and will not be held Responsible for any kind of Misuse that is out of our control.
+Developers have no Control over how a Person proceeds to Use this Document and will NOT be held responsible for actions of others including other developers.
+A developer will not be held responsible for Inappropriate actions caused by other developers Unless the accuser has REAL and CONFIRMED evidence that the said Developer could have easily done something to stop the Other Developer from doing said Inappropriate Actions.
+
 </p>
+          <a class="gamesbutton" href="select.html">games</a>
+          <br>
+          <a class="gamesbutton" href="chat/index.html">chat</a>
+          <br>
+          <p class="linkp"><a href="updatelog.html">view updates</a> 
+          <br>
+         
+              
+      </div>
 
-<button onclick="togglePanel()">OK I understand</button>
+      <script>
+        const text = "Sigmagames";
+        const typingDelay = 700; 
+        const initialDelay = 0; 
+        const cursor = document.getElementById("cursor");
+        const h1 = document.querySelector(".typewriter");
 
-<div id="anel">
-    <h1>Sigma Games 🎮</h1>
-    <p>Select a game to play:</p>
+        function type() {
+        setTimeout(() => {
+            for (let i = 0; i < text.length; i++) {
+            setTimeout(() => {
+                h1.textContent += text[i];
+                if (i === text.length - 1) {
+                cursor.style.display = "none"; 
+                }
+            }, i * typingDelay);
+            }
+        }, initialDelay);
+        }
 
-    <div class="grid">
-<div class="grid">
+        type();
+      </script>
 
-    <a class="game-btn" onclick="cloak('newgames/candycrush/')" href="#">candy crush</a>
-    <a class="game-btn" onclick="cloak('newgames/sodoku/')" href="#">soduku</a>
-    <a class="game-btn" onclick="cloak('1v1lol/')" href="#">1v1lol</a>
-    <a class="game-btn" onclick="cloak('newgames/stackCode/')" href="#">stack</a>
-    <a class="game-btn" onclick="cloak('newgames/2048code/')" href="#">2048</a>
-    <a class="game-btn" onclick="cloak('newgames/fluidsim/')" href="#">fluidsim</a>
-    <a class="game-btn" onclick="cloak('newgames/ragdollarchers/')" href="#">ragdollarchers</a>
-    <a class="game-btn" onclick="cloak('newgames/ragdollhit/')" href="#">ragdollhit</a>
-    <a class="game-btn" onclick="cloak('newgames/drivemad/')" href="#">drivemad</a>
-    <a class="game-btn" onclick="cloak('newgames/stickmanhook/')" href="#">stickmanhook</a>
-    <a class="game-btn" onclick="cloak('newgames/spacebarclicker/')" href="#">spacebarclicker</a>
-    <a class="game-btn" onclick="cloak('DogeMiner/')" href="#">DogeMiner</a>
-    <a class="game-btn" onclick="cloak('FullScreenMario/')" href="#">FullScreenMario</a>
-    <a class="game-btn" onclick="cloak('HexGL/')" href="#">HexGL</a>
-    <a class="game-btn" onclick="cloak('OfflineParadise/')" href="#">OfflineParadise</a>
-    <a class="game-btn" onclick="cloak('Squid Gun Fest/')" href="#">Squid Gun Fest</a>
-    <a class="game-btn" onclick="cloak('Stickman-Survival/')" href="#">Stickman Survival</a>
-    <a class="game-btn" onclick="cloak('among-us/')" href="#">Among Us</a>
-    <a class="game-btn" onclick="cloak('angry-birds/')" href="#">Angry Birds</a>
-    <a class="game-btn" onclick="cloak('backflip-dive-3d/')" href="#">Backflip Dive</a>
-    <a class="game-btn" onclick="cloak('backrooms/')" href="#">Backrooms</a>
-    <a class="game-btn" onclick="cloak('baldis-basics/')" href="#">Baldi's Basics</a>
-    <a class="game-btn" onclick="cloak('basketball-stars/')" href="#">Basketball Stars</a>
-    <a class="game-btn" onclick="cloak('bitlife/')" href="#">Bitlife</a>
-    <a class="game-btn" onclick="cloak('bloonstd/')" href="#">Bloonstd</a>
-    <a class="game-btn" onclick="cloak('bloxors/')" href="#">Bloxors</a>
-    <a class="game-btn" onclick="cloak('breakout/')" href="#">Breakout</a>
-    <a class="game-btn" onclick="cloak('cars-simulator/')" href="#">Cars Simulator</a>
-    <a class="game-btn" onclick="cloak('championarcher/')" href="#">Champion Archer</a>
-    <a class="game-btn" onclick="cloak('chromedino/')" href="#">Chrome Dino</a>
-    <a class="game-btn" onclick="cloak('clean-up-io/')" href="#">Clean Up</a>
-    <a class="game-btn" onclick="cloak('core-ball/')" href="#">Core Ball</a>
-    <a class="game-btn" onclick="cloak('crossyroad/')" href="#">Crossy Road</a>
-    <a class="game-btn" onclick="cloak('cubefield/')" href="#">Cubefield</a>
-    <a class="game-btn" onclick="cloak('death-run-3d/')" href="#">Death Run</a>
-    <a class="game-btn" onclick="cloak('draw-the-hill/')" href="#">Draw The Hill</a>
-    <a class="game-btn" onclick="cloak('drive-mad/')" href="#">Drive Mad</a>
-    <a class="game-btn" onclick="cloak('duck-life-treasurehunt/')" href="#">Duck Life</a>
-    <a class="game-btn" onclick="cloak('edge-surf/')" href="#">Edge Surf</a>
-    <a class="game-btn" onclick="cloak('elasticman/')" href="#">Elasticman</a>
-    <a class="game-btn" onclick="cloak('emulator-js/')" href="#">Emulator JS</a>
-    <a class="game-btn" onclick="cloak('evilglitch/')" href="#">Evil Glitch</a>
-    <a class="game-btn" onclick="cloak('factoryballsforever/')" href="#">Factory Balls</a>
-    <a class="game-btn" onclick="cloak('flappy-2048/')" href="#">Flappy 2048</a>
-    <a class="game-btn" onclick="cloak('flappybird/')" href="#">Flappy Bird</a>
-    <a class="game-btn" onclick="cloak('geodash-2/')" href="#">Geodash</a>
-    <a class="game-btn" onclick="cloak('geometry_jump_sketchy/')" href="#">Geometry Jump</a>
-    <a class="game-btn" onclick="cloak('getaway-shootout/')" href="#">Getaway Shootout</a>
-    <a class="game-btn" onclick="cloak('golf/')" href="#">Golf</a>
-    <a class="game-btn" onclick="cloak('gunspin/')" href="#">Gunspin</a>
-    <a class="game-btn" onclick="cloak('helicopter/')" href="#">Helicopter</a>
-    <a class="game-btn" onclick="cloak('jetpack/')" href="#">Jetpack</a>
-    <a class="game-btn" onclick="cloak('justfall/')" href="#">Just Fall</a>
-    <a class="game-btn" onclick="cloak('learntofly2/')" href="#">Learn To Fly</a>
-    <a class="game-btn" onclick="cloak('line-rider/')" href="#">Line Rider</a>
-    <a class="game-btn" onclick="cloak('moto-x3m-2/')" href="#">Moto X3M</a>
-    <a class="game-btn" onclick="cloak('one-screen-run-2/')" href="#">One Screen 2</a>
-    <a class="game-btn" onclick="cloak('one-screen-run/')" href="#">One Screen</a>
-    <a class="game-btn" onclick="cloak('pacman-fps/')" href="#">Pacman FPS</a>
-    <a class="game-btn" onclick="cloak('pacman/')" href="#">Pacman</a>
-    <a class="game-btn" onclick="cloak('paperio2/')" href="#">Paperio 2</a>
-    <a class="game-btn" onclick="cloak('papery-planes/')" href="#">Papery Planes</a>
-    <a class="game-btn" onclick="cloak('retrobowl/')" href="#">Retro Bowl</a>
-    <a class="game-btn" onclick="cloak('rolly-vortex/')" href="#">Rolly Vortex</a>
-    <a class="game-btn" onclick="cloak('rooftop-snipers/')" href="#">Rooftop Snipers</a>
-    <a class="game-btn" onclick="cloak('run3/')" href="#">Run3</a>
-    <a class="game-btn" onclick="cloak('sand-game/')" href="#">Sand Game</a>
-    <a class="game-btn" onclick="cloak('scrapmetal/')" href="#">Scrapmetal</a>
-    <a class="game-btn" onclick="cloak('short-life-2/')" href="#">Short Life</a>
-    <a class="game-btn" onclick="cloak('smashkarts/')" href="#">Smash Karts</a>
-    <a class="game-btn" onclick="cloak('soundboard/')" href="#">Soundboard</a>
-    <a class="game-btn" onclick="cloak('spacehuggers/')" href="#">Spacehuggers</a>
-    <a class="game-btn" onclick="cloak('stick-archers-battle/')" href="#">Stick Archers</a>
-    <a class="game-btn" onclick="cloak('stickclimb/')" href="#">Stick Climb</a>
-    <a class="game-btn" onclick="cloak('stickwar/')" href="#">Stick War</a>
-    <a class="game-btn" onclick="cloak('stormthehouse2/')" href="#">Storm House</a>
-    <a class="game-btn" onclick="cloak('superhot/')" href="#">Superhot</a>
-    <a class="game-btn" onclick="cloak('swerve/')" href="#">Swerve</a>
-    <a class="game-btn" onclick="cloak('temple-run-2/')" href="#">Temple Run</a>
-    <a class="game-btn" onclick="cloak('time-shooter-3/')" href="#">Time Shooter</a>
-    <a class="game-btn" onclick="cloak('tunnel-rush/')" href="#">Tunnel Rush</a>
-    <a class="game-btn" onclick="cloak('vex3/')" href="#">Vex3</a>
-    <a class="game-btn" onclick="cloak('vex4/')" href="#">Vex4</a>
-    <a class="game-btn" onclick="cloak('vex5/')" href="#">Vex5</a>
-    <a class="game-btn" onclick="cloak('waterworks/')" href="#">Waterworks</a>
-    <a class="game-btn" onclick="cloak('worlds-hardest-game-2/')" href="#">World Hardest</a>
-    <a class="game-btn" onclick="cloak('zombocalypse/')" href="#">Zombocalypse</a>
-    <a class="game-btn" onclick="cloak('newgames/paperio3d/')" href="#">Paperio3D</a>
-    <a class="game-btn" onclick="cloak('newgames/run/')" href="#">Run</a>
-    <a class="game-btn" onclick="cloak('https://valsamisphysics.com/sidescroller/index.html')" href="#">Ngon</a>
-    <a class="game-btn" onclick="cloak('https://www.stat2games.sites.grinnell.edu/games/raceradvanced22.html')" href="#">Racer</a>
-    <a class="game-btn" onclick="cloak('https://pointerpointer.com/')" href="#">Pointer Game</a>
-    <a class="game-btn" onclick="cloak('https://kids.hidabroot.org/Games/Rollingball/')" href="#">Slope 2</a>
-    <a class="game-btn" onclick="cloak('https://eurascension.s3.us-east-2.amazonaws.com/index.html')" href="#">Aircraft Sim</a>
-    <a class="game-btn" onclick="cloak('https://copilot.lindberghschools.ws/projectstorage/CopilotTheVG/index.html')" href="#">Co Pilot</a>
-    <a class="game-btn" onclick="cloak('https://home.adelphi.edu/~ju21229/assets/terrain_html/Terrain.html')" href="#">Terrain</a>
-    <a class="game-btn" onclick="cloak('https://www.drivingskillsforlife.com/media/games/vr2pc/sub/roundabout/index.html')" href="#">Driving Sim</a>
-    <a class="game-btn" onclick="cloak('https://personal.denison.edu/~lalla/314f20/juntao/index.html')" href="#">3D Ball Roll</a>
-    <a class="game-btn" onclick="cloak('https://andregaertner.com/game/')" href="#">Survival Shooting</a>
-    <a class="game-btn" onclick="cloak('https://diguifi-games.s3-us-west-2.amazonaws.com/FPS_Survival_build/index.html')" href="#">The Wanderer</a>
-    <a class="game-btn" onclick="cloak('https://kids.hidabroot.org/Games/BlastyShooting/')" href="#">Blasty Shooting</a>
-    <a class="game-btn" onclick="cloak('https://williamhoza.com/text/?t=wow%20playing%20games?')" href="#">Particle Sim</a>
-    <a class="game-btn" onclick="cloak('https://www.stat2games.sites.grinnell.edu/games/racekart.htm')" href="#">Race Kart</a>
-    <a class="game-btn" onclick="cloak('https://thegamesq2.deno.dev/slope/slope.html')" href="#">Hole.io</a>
+      <script src="js/cursor.js"></script>
+      <script src="js/cloak.js"></script>
+      <script src="js/themes.js"></script>
+  
 
-</div>
-
-</div>
-
-    
-    </div>
-
-</body>
-</html>
+</body></html>
