@@ -18,6 +18,27 @@
             }
         });
     </script>
+        <script>
+document.addEventListener("keydown", function(e) {
+  if (e.key.toLowerCase() === "p") {
+
+    // Change tab title
+    document.title = "IXL | Math, Language Arts, Science, Social Studies, and Spanish";
+
+    // Change favicon
+    let link = document.querySelector("link[rel~='icon']");
+    if (!link) {
+      link = document.createElement('link');
+      link.rel = 'icon';
+      document.head.appendChild(link);
+    }
+    link.href = "https://www.ixl.com/favicon.ico";
+
+    // Change displayed URL (does not really change the domain)
+    history.replaceState(null, "", ".com");
+  }
+});
+</script>
   </head>
   <script>
       
