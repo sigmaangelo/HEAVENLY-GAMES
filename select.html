@@ -3,18 +3,6 @@
 <head>
 <meta charset="UTF-8" />
 
-       <img id="my-image"
-        src="https://codehs.com/uploads/9173a061658443f6b716a2a85625a6d7"
-        hidden>
-    <script>
-        const myImage = document.getElementById("my-image");
-        
-        document.addEventListener("keydown", (event) => {
-            if (event.key === "p") {
-                myImage.hidden = !myImage.hidden; // Toggle image visibility
-            }
-        });
-    </script>
 
 <style>
     body {
@@ -75,6 +63,19 @@
         win.document.body.appendChild(iframe);
     }
 </script>
+       
+       <img id="my-image"
+        src="https://codehs.com/uploads/9173a061658443f6b716a2a85625a6d7"
+        hidden>
+    <script>
+        const myImage = document.getElementById("my-image");
+        
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "p") {
+                myImage.hidden = !myImage.hidden; // Toggle image visibility
+            }
+        });
+    </script>
 </head>
 
 <body>
