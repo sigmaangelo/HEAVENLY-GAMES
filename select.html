@@ -69,18 +69,14 @@
     }
 </script>
        
-       <img id="my-image"
-        src="https://codehs.com/uploads/9173a061658443f6b716a2a85625a6d7"
-        hidden>
-    <script>
-        const myImage = document.getElementById("my-image");
-        
-        document.addEventListener("keydown", (event) => {
-            if (event.key === "p") {
-                myImage.hidden = !myImage.hidden; // Toggle image visibility
-            }
-        });
-    </script>
+       <script>
+document.addEventListener("keydown", function(e) {
+  if (e.key.toLowerCase() === "p") {
+    window.location.href = "https://classroom.mcpsmd.org/";
+  }
+});
+</script>
+
 </head>
 
 <body>
@@ -92,6 +88,7 @@
     <p>Select a game to play:</p>
     <p>BY FRIDAY 20-40 MORE GAMES WILL BE ADDED AND ICONS FOR EACH GAME WILL ALSO BE ADDED</p>
     <p>SOME GAMES TAKE LONGER TO LOAD THAN OTHERS</p>
+    <p>PANIC KEY IS P</p>
     <div class="grid">
 <div class="grid">
 
