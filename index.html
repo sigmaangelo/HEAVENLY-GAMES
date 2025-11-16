@@ -118,6 +118,19 @@ p {
     z-index: 10000;
 }
 </style>
+   <script>
+ 
+
+    function cloak(url) {
+        let win = window.open("about:blank", "_blank");
+        let iframe = win.document.createElement("iframe");
+        iframe.src = url;
+        iframe.style = "position:fixed;top:0;left:0;width:100%;height:100%;border:none;";
+        win.document.body.style.margin = "0";
+        win.document.body.appendChild(iframe);
+    }
+</script>
+       
 </head>
 
 <body>
@@ -157,7 +170,7 @@ registered with a school or education learning facility.
 
 <table>
 <tr>
-<td><a class="gamesbutton" href="games.html">games</a></td>
+<td><a class="gamesbutton" onclick="cloak('games.html')" href="#">games</a></td>
 <td><a class="gamesbutton" href="chat.html">chat</a></td>
 <td><a class="gamesbutton" href="">tools(coming soon...)</a></td>
 
