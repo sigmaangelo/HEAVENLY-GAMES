@@ -1,370 +1,198 @@
 <html lang="en">
-        
-        <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="shortcut icon" href="images/ico.ico" type="image/x-icon">
-        <link rel="stylesheet" href="style.css">
-        <title>Home | Sigmagames</title>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="images/ico.ico" type="image/x-icon">
+<link rel="stylesheet" href="style.css">
+<title>Home | Sigmagames</title>
+<meta name="description" content="sigmagames">
 
-        <meta name="description" content="sigmagames">
+<style>
+/* ===== FONTS ===== */
+@font-face { font-family: 'Ubuntu'; src: url('../fonts/Ubuntu.woff2') format('woff2'), url('../fonts/Ubuntu.woff') format('woff'), url('../fonts/Ubuntu.ttf') format('truetype'), url('../fonts/Ubuntu.otf') format('otf'); }
+@font-face { font-family: 'PixelifySans'; src: url('../fonts/pixelifysans.woff2') format('woff2'), url('../fonts/pixelifysans.woff') format('woff'), url('../fonts/pixelifysans.ttf') format('truetype'), url('../fonts/pixelifysans.otf') format('otf'); }
+@font-face { font-family: 'Inconsolata'; src: url('../fonts/Inconsolata.woff2') format('woff2'), url('../fonts/Inconsolata.woff') format('woff'), url('../fonts/Inconsolata.ttf') format('truetype'), url('../fonts/Inconsolata.otf') format('otf'); }
+@font-face { font-family: 'Raleway'; src: url('../fonts/raleway.woff2') format('woff2'), url('../fonts/raleway.woff') format('woff'), url('../fonts/raleway.ttf') format('truetype'), url('../fonts/raleway.otf') format('otf'); }
 
-
-  
-  </head>
-  <script>
-      
-  // JavaScript for updating the cursor position
-  document.addEventListener('mousemove', (e) => {
-    const circleCursor = document.querySelector('.cursor');
-    const scrollX = window.scrollX || window.pageXOffset; // Horizontal scroll position
-    const scrollY = window.scrollY || window.pageYOffset; // Vertical scroll position
-
-    // Calculate the cursor position, considering scroll position and viewport width
-    const cursorX = e.clientX + scrollX;
-    const maxCursorX = window.innerWidth - circleCursor.clientWidth; // Maximum cursor X position
-    circleCursor.style.left = Math.min(cursorX, maxCursorX) + 'px';
-    circleCursor.style.top = e.clientY + scrollY + 'px';
-  });
-
-  </script>
-  <style>
-      @font-face {
-    font-family: 'Ubuntu';
-    src: url('../fonts/Ubuntu.woff2') format('woff2'),
-         url('../fonts/Ubuntu.woff') format('woff'),
-         url('../fonts/Ubuntu.ttf') format('truetype'),
-         url('../fonts/Ubuntu.otf') format('otf');
-}
-
-@font-face {
-    font-family: 'PixelifySans';
-    src: url('../fonts/pixelifysans.woff2') format('woff2'),
-         url('../fonts/pixelifysans.woff') format('woff'),
-         url('../fonts/pixelifysans.ttf') format('truetype'),
-         url('../fonts/pixelifysans.otf') format('otf');
-}
-
-@font-face {
-    font-family: 'Inconsolata';
-    src: url('../fonts/Inconsolata.woff2') format('woff2'),
-         url('../fonts/Inconsolata.woff') format('woff'),
-         url('../fonts/Inconsolata.ttf') format('truetype'),
-         url('../fonts/Inconsolata.otf') format('otf');
-}
-
-@font-face {
-    font-family: 'Raleway';
-    src: url('../fonts/raleway.woff2') format('woff2'),
-        url('../fonts/raleway.woff') format('woff'),
-        url('../fonts/raleway.ttf') format('truetype'),
-        url('../fonts/raleway.otf') format('otf');
-}
-
+/* ==============================
+   DEFAULT THEME
+============================== */
 :root {
-    --background-image: url('../images/homebg.png');
-    --font-family: 'Ubuntu', sans-serif;
-    --text-color: #fff;
-    --background-color: black;
-    --border-color1: #000000;
-    --border-color2: #ffffff;
-    --hover-color: #1a1818;
-    --text-glow: #000000
-}
-
-:root.theme-azurite {
-    --background-image: url('../images/homebg_5.png');
-    --font-family: 'Ubuntu', sans-serif;
-    --text-color: #c8d9e9; 
-    --border-color1: #2d6cc4;
-    --border-color2: #111633;
-    --background-color: #495092;
-    --hover-color: #373e7d;
-    --text-glow: #4e5bd0;
-}
-
-:root.theme-retro {
-    --background-image: url('../images/homebg_2.png');
-    --font-family: 'PixelifySans', 'Ubuntu', sans-serif;
-    --text-color: #ffffff; 
-    --border-color1: #2fce56;
-    --border-color2: #375945;
-    --background-color: #2f8154;
-    --hover-color: #258a79;
-    --text-glow: #4ed089;
-}
-
-:root.theme-cosmic {
-    --background-image: url('../images/homebg_1.png');
-    --font-family: 'Inconsolata', 'Ubuntu', sans-serif;
-    --text-color: #ffffff; 
-    --border-color1: #1e1d1f;
-    --border-color2: #322c2c;
-    --background-color: #121212;
-    --hover-color: #181a1a;
-    --text-glow: #d6c9c9;
-}
-  
-
-:root.theme-molten {
-    --background-image: url('../images/homebg_3.png');
-    --font-family: 'Ubuntu', sans-serif;
-    --text-color: #f58484; 
-    --border-color1: #e70e0e;
-    --border-color2: #742e2e;
-    --background-color: #892525;
-    --hover-color: #9b2121;
-    --text-glow: #dc1010;
-}
-
-:root.theme-amethyst {
-    --background-image: url('../images/homebg_4.png');
+    --background-image: url('https://codehs.com/uploads/0a0a04f3c7b665b167f958fef1e9d397');
     --font-family: 'Raleway', sans-serif;
-    --text-color: #c284f5; 
-    --border-color1: #6c0ee7;
-    --border-color2: #4c1587;
-    --background-color: #502589;
-    --hover-color: #5f24ae;
-    --text-glow: #662589;
+        --text-color: #f7e7c1;
+    --background-color: #3a281b;
+    --border-color1: #d9792d;
+    --border-color2: #98322f;
+    --hover-color: #b75827;
+    --text-glow: #f9c56a;
 }
-  
+
+/* ===============================
+   BASE STYLING
+=============================== */
 body {
     margin: 0;
     padding: 0;
     font-family: var(--font-family);
     display: flex;
+    height: 100vh;
     background-color: var(--background-color); 
-    animation: mainHeaderAnimation 2s forwards;
     cursor: none;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    overflow: hidden; /* prevent scrolling */
 }
-  
-body::-webkit-scrollbar {
-    width: 0;
-}
-  
+body::-webkit-scrollbar { width: 0; }
+
 .content-side {
     width: 100%;
-    background-color: var(--background-color);
-    color: var(--text-color);
+    height: 100%;
     display: flex;
+        color: var(--text-color);
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    animation: mainHeaderAnimation 1s ease-in-out forwards;
+    justify-content: center; /* perfect vertical centering */
+    text-align: center;
+    padding: 20px;
     background-image: var(--background-image);
     background-size: cover;
+    background-position: center;
+    backdrop-filter: blur(1px);
+    gap: 10px;
 }
-  
+
+/* HEADERS WITH RESPONSIVE FONT SIZES */
 h1 {
-    font-size: 96px;
-    font-family: var(--font-family);
-    text-shadow: 0 0 10px var(--text-color),
-                 0 0 10px var(--text-glow),
-                 0 0 30px var(--text-glow),
-                 0 0 40px var(--text-color),
-                 0 0 50px var(--text-glow),
-                 0 0 60px var(--text-color),
-                 0 0 70px var(--text-glow),
-                 0 0 80px #000000;
-    margin-bottom: 0px;
+    font-size: clamp(40px, 6vw, 96px);
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-shadow: 0 0 12px rgba(255,255,255,0.5), 0 0 24px var(--text-glow);
+    margin: 0;
 }
-  
 h2 {
-    font-size: 20px;
+    font-size: clamp(16px, 2vw, 24px);
+    margin: 2px 0;
 }
-  
+h3 {
+    font-size: clamp(14px, 1.8vw, 20px);
+    margin: 2px 0;
+}
+
+/* DISCLAIMER PARAGRAPH */
 p {
-    font-size: 18px;
-    margin-bottom: 2px;
-    padding-left: 10%;
-    padding-right: 10%;
+    font-size: clamp(10px, 1.5vw, 16px);
+    max-width: 900px;
     text-align: center;
-    text-shadow: 5px 5px 5px var(--text-glow);
-    animation: paragraphTween 1.2s ease-in-out forwards;
+    text-shadow: 0px 0px 6px rgba(249,197,106,0.6);
+    line-height: 1.3;
 }
-  
-.linkp a {
-    font-size: 20px;
-    text-align: center;
-    border: 3px solid transparent;
-    transition: 0.15s ease-in-out;
-    text-shadow: 5px 5px 5px var(--text-glow);
-}
-  
-.linkp a:hover {
-    color: rgb(199, 192, 192);
-}
-  
-a {
-    font-size: 18px;
-    text-decoration: underline;
-    color: var(--text-color);
-    cursor: none;
-    text-shadow: 5px 5px 5px var(--text-glow);
-}
-  
+
+/* BUTTONS */
 .gamesbutton {
-    background-color: var(--background-color);
-    color: var(--text-color);
-    width: 50%;
-    max-width: 250px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 28px;
-    margin: 0px;
+    background: linear-gradient(135deg, #d9792d, #98322f);
+    width: 80%;
+    max-width: 500px;
+    padding: 8px 30px;
+    font-size: clamp(14px, 2vw, 28px);
+    margin: 3px;
     cursor: none;
-    transition: background-color 0.15s ease-in-out;
-  
-    border: 3px solid transparent;
-    border-image: linear-gradient(45deg, rgb(0, 0, 0), rgb(255, 255, 255));
-    border-image-slice: 1;
-    border-radius: 4px;
-    animation: borderAnimation 1s infinite alternate;
-    animation-delay: calc(var(--delay) * 1ms);
+    color: #fff;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: 0.25s ease-in-out;
+    box-shadow: 0 5px 14px rgba(0,0,0,0.4);
 }
-  
 .gamesbutton:hover {
-    background-color: var(--hover-color);
+    transform: translateY(-3px);
+    filter: brightness(1.1);
 }
-  
+
+/* CUSTOM CURSOR */
 .cursor {
     width: 7px;
     height: 7px;
     background-color: var(--text-color);
     border-radius: 50%;
     position: absolute;
-    transform: translate(-50%, -50%);
     pointer-events: none;
-    opacity: 0.8;
+    opacity: 0.85;
     z-index: 10000;
 }
-  
-@keyframes mainHeaderAnimation {
-    0% {
-        opacity: 0;
-        filter: blur(0px);
-        transform: translateY(-30%);
-    }
-    100% {
-        opacity: 1;
-        filter: blur(0px);
-        transform: translateY(0%);
-    }
-}
-  
-@keyframes paragraphTween {
-    0% {
-        transform: translateX(-5%);
-    }
-    100% {
-        transform: translateX(0%);
-    }
-}
-  
-@keyframes borderAnimation {
-    0% {
-        border-image-source: linear-gradient(45deg, var(--border-color1), var(--border-color2));
-    }
-    100% {
-        border-image-source: linear-gradient(45deg, var(--border-color2), var(--border-color1));
-    }
-}
-  
-  </style>
-  <style>
-         #buttons{
-            display: none;
-           
-        }
-        
-    </style>
+</style>
+</head>
 
+<body>
+<div class="cursor"></div>
+<div class="content-side">
 
+<h1 class="typewriter"><span id="cursor"></span></h1>
+<h2>version 1.2.5</h2>
+<h2>We are halfway through the update </h2>
+<h3>added like 30 games including 1 BROS GAME</h3>
+<h3>PANIC KEY IS P (Fullscreen the page)</h3>
+<p>
+<a href="https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title17-section107&num=0&edition=prelim">17 U.S. Code § 107 - Limitations on exclusive rights:</a> 
+<br>
+Fair use. The Developers of this Project shall NOT be 
+<br>
 
-    <script>
-        function togglePanel() {
-            const panel = document.getElementById('buttons');
+Held Responsible for Misuse or Exploitation of this Website.
+<br>
+This is ONLY for AFTER School Use when Given Permission from the Guardian(s) Present. 
+<br>
+Users are NOT expected to use this website during school.
+<br>
+Developers have no Control over how a Person proceeds to Use this Document
+<br>
+and will NOT be held responsible for actions of others including other developers.
+<br
+<br>
+This website is Not to be used on a device or computer that is 
+<br>
 
-            if (panel.style.display === 'none') {
-                panel.style.display = 'block';
-            } else {
-                panel.style.display = 'none';
-            }
-            
-       
-    </script>
-         <script>
+registered with a school or education learning facility.
+<br>
+<br>
+
+</p>
+
+<table>
+<tr>
+<td><a class="gamesbutton" href="select.html">games</a></td>
+<td><a class="gamesbutton" href="chat.html">chat</a></td>
+<td><a class="gamesbutton" href="select.html">tools(coming soon...)</a></td>
+</tr>
+</table>
+
+</div>
+
+<script>
+// Cursor
+document.addEventListener('mousemove', e => {
+    const circleCursor = document.querySelector('.cursor');
+    circleCursor.style.left = e.pageX + "px";
+    circleCursor.style.top = e.pageY + "px";
+});
+
+// Panic redirect
 document.addEventListener("keydown", function(e) {
-  if (e.key.toLowerCase() === "p") {
+  if (e.key.toLowerCase() === "t") {
     window.location.href = "https://codehs.com/sandbox?ref=20#/";
   }
 });
+
+// Typewriter
+const text = "Sigmagames";
+const typingDelay = 700;
+const cursorSpan = document.getElementById("cursor");
+const h1 = document.querySelector(".typewriter");
+
+text.split("").forEach((char, i) => {
+    setTimeout(() => {
+        h1.textContent += char;
+        if (i === text.length - 1) cursorSpan.style.display = "none";
+    }, i * typingDelay);
+});
 </script>
-  <body>
-      <div class="cursor"></div>
-      <div class="content-side">
-          <h1 class="typewriter"><span id="cursor"></span></h1>
-          <h2>version 1.1 (release)</h2>
-              <h3>PANIC KEY IS P (Fullscreen the page)</h3>
-          <br>
-          
-          
-          <p>
-    17 U.S. Code § 107 - Limitations on exclusive rights: Fair use
 
-The Developers of this Project shall NOT be Held Responsible for Misuse or Exploitation of this Website.
-
-This is ONLY for AFTER School Use when Given Permission from the Guardian(s) Present.
-Users are NOT expected to use this website during school.
-Developers are not in Control of misuse of this form and will not be held Responsible for any kind of Misuse that is out of our control.
-Developers have no Control over how a Person proceeds to Use this Document and will NOT be held responsible for actions of others including other developers.
-A developer will not be held responsible for Inappropriate actions caused by other developers Unless the accuser has REAL and CONFIRMED evidence that the said Developer could have easily done something to stop the Other Developer from doing said Inappropriate Actions.
-
-</p>
-              <br>
-              <br>
-          <a class="gamesbutton" href="select.html">games</a>
-          <br>
-              <br>
-          <a class="gamesbutton" href="chat.html">chat</a>
-          <br>
-              <br>
-<br>
-          <a class="gamesbutton" href="select.html">games</a>
-          <br>    
-<div align=center><a href='https://www.counter12.com'><img src='https://www.counter12.com/img-w8xwy1Bw01847bY2-2.gif' border='0' alt='conter12'></a><script type='text/javascript' src='https://www.counter12.com/ad.js?id=w8xwy1Bw01847bY2'></script></div>      </div>
-
-      <script>
-        const text = "Sigmagames";
-        const typingDelay = 700; 
-        const initialDelay = 0; 
-        const cursor = document.getElementById("cursor");
-        const h1 = document.querySelector(".typewriter");
-
-        function type() {
-        setTimeout(() => {
-            for (let i = 0; i < text.length; i++) {
-            setTimeout(() => {
-                h1.textContent += text[i];
-                if (i === text.length - 1) {
-                cursor.style.display = "none"; 
-                }
-            }, i * typingDelay);
-            }
-        }, initialDelay);
-        }
-
-        type();
-      </script>
-
-      <script src="js/cursor.js"></script>
-      <script src="js/cloak.js"></script>
-      <script src="js/themes.js"></script>
-  
-
-</body></html>
+</body>
+</html>
