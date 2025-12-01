@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 
 const PASSWORD = "1234";
-
+  
 serve(async (req) => {
   const url = new URL(req.url);
   const path = url.pathname;
@@ -22,9 +22,10 @@ serve(async (req) => {
   }
 
   // ---------------------------------------
-  // PROTECT GAMES
+  // PROTECT HOME + GAMES
   // ---------------------------------------
   if (
+    path === "/home.html" ||     // <--- NEW PROTECTION
     path === "/games.html" ||
     path === "/games" ||
     path.startsWith("/games/")
@@ -41,7 +42,6 @@ serve(async (req) => {
     const ua = req.headers.get("user-agent") || "";
     const accept = req.headers.get("accept") || "";
 
-    // allow REAL browsers to view normally
     const looksBrowser =
       ua.includes("Chrome") ||
       ua.includes("Firefox") ||
