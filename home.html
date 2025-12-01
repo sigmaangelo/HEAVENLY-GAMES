@@ -1,0 +1,310 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Home | Sigmagames</title>
+  <style>
+    @font-face {
+      font-family: 'Raleway';
+      src: url('fonts/raleway.woff2') format('woff2'),
+           url('fonts/raleway.woff') format('woff'),
+           url('fonts/raleway.ttf') format('truetype'),
+           url('fonts/raleway.otf') format('otf');
+    }
+
+    :root {
+      --background-image: url('https://codehs.com/uploads/ef97ba6cf3296ef29a06e734df385619');
+      --font-family: 'Raleway', sans-serif;
+      --text-color: #f7e7c1;
+      --background-color: #3a281b;
+      --text-glow: #f9c56a;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-family);
+      display: flex;
+      height: 100vh;
+      background-color: var(--background-color);
+      cursor: none;
+      overflow: hidden;
+    }
+    body::-webkit-scrollbar {
+      width: 0;
+    }
+
+    .content-side {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      color: var(--text-color);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+      background-image: var(--background-image);
+      background-size: cover;
+      background-position: center;
+      backdrop-filter: blur(1px);
+      gap: 10px;
+      position: relative; 
+    }
+
+    /* HEADERS */
+    h1 {
+      font-size: 70px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-shadow: 0 0 12px rgba(255, 255, 255, 0.5),
+        0 0 14px var(--text-glow);
+      margin: 0;
+      min-height: 110px; /* fixed height to prevent layout jump */
+    }
+    h2 {
+      font-size: clamp(16px, 2vw, 24px);
+      margin: 2px 0;
+    }
+    h3 {
+      font-size: clamp(14px, 1.8vw, 20px);
+      margin: 2px 0;
+    }
+
+    a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 600;
+      margin: 5px 0;
+      display: inline-block;
+    }
+
+    /* Circle Button Positioned Absolutely */
+    .circle-button {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: #990000;
+      color: white;
+      border: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 16px;
+      cursor: pointer;
+      position: absolute;
+      bottom: 155px;
+      right: 1075px;
+      box-shadow: 0 5px 14px rgba(0, 0, 0, 0.4);
+      transform: none; /* remove translate */
+      user-select: none;
+    }
+     .circle-button3 {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: #330000;
+      color: white;
+      border: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 16px;
+      cursor: pointer;
+      position: absolute;
+      bottom: 540px;
+      right: 1100px;
+      transform: none; /* remove translate */
+      user-select: none;
+    }
+    .circle-button4 {
+      width: 75px;
+      height: 75px;
+      border-radius: 50%;
+      background-color: #21212c;
+      color: white;
+      border: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 16px;
+      cursor: pointer;
+      position: absolute;
+      bottom: 574px;
+      right: 144px;
+      transform: none; /* remove translate */
+      user-select: none;
+      font-size:12px;
+    }
+.circle-button2 {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color:   #00004d;
+      color: white;
+      border: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 16px;
+      cursor: pointer;
+      position: absolute;
+      bottom: 103px;
+      right: 320px;
+      box-shadow: 0 5px 14px rgba(0, 0, 0, 0.4);
+      transform: none; /* remove translate */
+      user-select: none;
+    }
+
+    /* Custom cursor */
+    .cursor {
+      width: 7px;
+      height: 7px;
+      background-color: var(--text-color);
+      border-radius: 50%;
+      position: absolute;
+
+      pointer-events: none;
+      opacity: 0.85;
+      z-index: 10000;
+    }
+    
+    /*if u need a reminder on translating*/
+    /*https://stackoverflow.com/questions/16812911/css-keyframe-animation-with-translation-transform-snaps-to-whole-pixels-in-ie-10*/
+    .fly-down {
+  transform: translateY(-200px);
+    opacity: 0;
+  animation: flyDown 1s ease-out forwards;
+    animation-delay: 1s;
+  position: relative;
+  left: -35px;
+}
+
+.fly-left {
+  display: inline-block;
+  transform: translateX(-300px);
+  opacity: 0;
+  animation: flyLeft 1s ease-out forwards;
+  animation-delay: 1.6s;
+  color:#E53935;
+   position: relative;
+  left: -35px;
+}
+
+.fly-right {
+  display: inline-block;
+   position: relative;
+  left: -35px;
+  transform: translateX(300px);
+  opacity: 0;
+  color: green;
+  animation: flyRight 1s ease-out forwards;
+  animation-delay: 1.6s;
+}
+
+@keyframes flyDown {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes flyLeft {
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes flyRight {
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div class="cursor"></div>
+  <div class="content-side">
+   <h1>
+  <div id="line1" class="fly-down">Heavenly Games</div>
+  <div>
+    <span id="line2a" class="fly-left">XMAS</span>
+    <span id="line2b" class="fly-right"> UPDATE</span>
+  </div>
+</h1>
+
+    <h2>version 1.3</h2>
+    <h3>PANIC KEY IS / (Fullscreen the page)</h3>
+
+    <button class="circle-button"  onclick="location.href='christmasheavenly.html';">Games</button>
+        <button class="circle-button2">Chat</button>
+        <button class="circle-button3">Tools</button>
+                <button class="circle-button4">Disclaimer</button>
+<!--To add a link to a button onclick="window.location.href = 'disclaimer.html';"-->
+<!-- <!-- YouTube players -->
+
+    
+  <!-- <div id="player1"></div>
+  <div id="player2"></div>
+  <button id="unmuteBtn1">Max Verstappen</button>
+  <button id="unmuteBtn2">First Christmas Song I found</button>
+
+  <script>
+    var player1, player2;
+
+    function onYouTubeIframeAPIReady() {
+      player1 = new YT.Player('player1', {
+        height: '1',
+        width: '1',
+        videoId: 'oXXBKK3FFBE', // First song
+        playerVars: { autoplay: 1, mute: 1, controls: 1 }
+      });
+      player2 = new YT.Player('player2', {
+        height: '1',
+        width: '1',
+        videoId: 'yXQViqx6GMY', // Mariah Carey Christmas song
+        playerVars: { autoplay: 1, mute: 1, controls: 1 }
+      });
+    }
+
+    // Toggle first song
+    document.getElementById('unmuteBtn1').addEventListener('click', function() {
+      if (player1.isMuted()) player1.unMute();
+      if (player1.getPlayerState() === YT.PlayerState.PLAYING) player1.pauseVideo();
+      else player1.playVideo();
+    });
+
+    // Toggle second song
+    document.getElementById('unmuteBtn2').addEventListener('click', function() {
+      if (player2.isMuted()) player2.unMute();
+      if (player2.getPlayerState() === YT.PlayerState.PLAYING) player2.pauseVideo();
+      else player2.playVideo();
+    });
+
+    // Load YouTube API
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.getElementsByTagName('script')[0].parentNode.insertBefore(tag, document.getElementsByTagName('script')[0]); -->
+  </script> -->
+
+  </div>
+  <script>
+    // Custom cursor follow
+    document.addEventListener('mousemove', (e) => {
+      const circleCursor = document.querySelector('.cursor');
+      circleCursor.style.left = e.pageX + 'px';
+      circleCursor.style.top = e.pageY + 'px';
+    });
+    document.addEventListener("keydown", function(e) {
+  if (e.key.toLowerCase() === "/") {
+    window.location.href = "https://codehs.com/sandbox?ref=20#/";
+  }
+});
+
+   
+  </script>
+</body>
+</html>
