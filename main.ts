@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 
-const PASSWORD = "1234";
+const PASSWORD = "ᎤᏇᏕ1Ꮭ0ᎧᏰᎧᎥᏬᎩᏖᏒᎴ";
 
 serve(async (req) => {
   const url = new URL(req.url);
