@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 
-const PASSWORD = "ᎤᏇᏕ1Ꮭ0ᎧᏰᎧᎥᏬᎩᏖᏒᎴ";
+const PASSWORD = "1234";
 
 serve(async (req) => {
   const url = new URL(req.url);
@@ -10,25 +10,38 @@ serve(async (req) => {
   const authenticated = cookies.includes("auth=1");
 
   // ---------------------------------------
-  // PUBLIC PAGES
+  // PUBLIC FILES
   // ---------------------------------------
   const publicPaths = [
     "/cloak.html",
     "/login.html",
     "/login",
   ];
-
-  const isPublic =
-    publicPaths.includes(path) ||
-    path.startsWith("/tools/");
+  if (publicPaths.includes(path) || path.startsWith("/tools/")) {
+    // always public
+  }
 
   // ---------------------------------------
-  // SPECIAL: PROTECT index.html FROM DOWNLOADERS
+  // PROTECT GAMES
+  // ---------------------------------------
+  if (
+    path === "/games.html" ||
+    path === "/games" ||
+    path.startsWith("/games/")
+  ) {
+    if (!authenticated) {
+      return new Response("403 Forbidden", { status: 403 });
+    }
+  }
+
+  // ---------------------------------------
+  // SPECIAL: PROTECT index.html FROM DOWNLOADS
   // ---------------------------------------
   if (path === "/" || path === "/index.html") {
     const ua = req.headers.get("user-agent") || "";
     const accept = req.headers.get("accept") || "";
 
+    // allow REAL browsers to view normally
     const looksBrowser =
       ua.includes("Chrome") ||
       ua.includes("Firefox") ||
@@ -48,49 +61,7 @@ serve(async (req) => {
   }
 
   // ---------------------------------------
-  // AUTO-PROTECT ALL NON-PUBLIC HTML,
-  // INCLUDING FOLDERS LIKE /vex5/
-  // ---------------------------------------
-  let checkPath = path;
-
-  // Folder detection → treat as index.html
-  if (checkPath.endsWith("/")) {
-    checkPath += "index.html";
-  }
-
-  const isHtml = checkPath.endsWith(".html");
-
-  const publicHtmlFiles = [
-    "/index.html",
-    "/cloak.html",
-    "/login.html",
-  ];
-
-  if (isHtml && !isPublic) {
-    if (!publicHtmlFiles.includes(checkPath)) {
-      if (!authenticated) {
-        return new Response("403 Forbidden", { status: 403 });
-      }
-    }
-  }
-
-  // ---------------------------------------
-  // PROTECT GAMES.HTML & /games/
-  // (extra explicit rule)
-  // ---------------------------------------
-  if (
-    path === "/home.html" ||
-    path === "/games.html" ||
-    path === "/games" ||
-    path.startsWith("/games/")
-  ) {
-    if (!authenticated) {
-      return new Response("403 Forbidden", { status: 403 });
-    }
-  }
-
-  // ---------------------------------------
-  // LOGIN HANDLER
+  // LOGIN ENDPOINT
   // ---------------------------------------
   if (path === "/login" && req.method === "POST") {
     const form = await req.formData();
@@ -119,7 +90,9 @@ serve(async (req) => {
   try {
     const file = await Deno.readFile(filePath);
     return new Response(file, {
-      headers: { "content-type": getType(filePath) },
+      headers: {
+        "content-type": getType(filePath),
+      },
     });
   } catch {
     return new Response("404 Not Found", { status: 404 });
