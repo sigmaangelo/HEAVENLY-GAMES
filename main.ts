@@ -22,10 +22,27 @@ serve(async (req) => {
   }
 
   // ---------------------------------------
+  // AUTO-PROTECT ALL NON-PUBLIC HTML FILES
+  // ---------------------------------------
+  const isHtml = path.endsWith(".html");
+
+  const publicHtml = [
+    "/index.html",
+    "/cloak.html",
+    "/login.html",
+  ];
+
+  if (isHtml && !publicHtml.includes(path)) {
+    if (!authenticated) {
+      return new Response("403 Forbidden", { status: 403 });
+    }
+  }
+
+  // ---------------------------------------
   // PROTECT HOME + GAMES
   // ---------------------------------------
   if (
-    path === "/home.html" ||     // <--- NEW PROTECTION
+    path === "/home.html" ||
     path === "/games.html" ||
     path === "/games" ||
     path.startsWith("/games/")
