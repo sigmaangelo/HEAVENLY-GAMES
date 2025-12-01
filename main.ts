@@ -1,23 +1,97 @@
 import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 
-// ===============================
-// CONFIG
-// ===============================
-const PASSWORD = "1234"; // change this
+const PASSWORD = "ᎤᏇᏕ1Ꮭ0ᎧᏰᎧᎥᏬᎩᏖᏒᎴ";
 
 serve(async (req) => {
   const url = new URL(req.url);
   const path = url.pathname;
 
-  // Read cookie
-  const cookieHeader = req.headers.get("cookie") || "";
-  const authenticated = cookieHeader.includes("auth=1");
+  const cookies = req.headers.get("cookie") || "";
+  const authenticated = cookies.includes("auth=1");
 
-  console.log("REQUEST:", path, "| AUTH:", authenticated);
+  // ---------------------------------------
+  // PUBLIC PAGES
+  // ---------------------------------------
+  const publicPaths = [
+    "/cloak.html",
+    "/login.html",
+    "/login",
+  ];
 
-  // ===============================
+  const isPublic =
+    publicPaths.includes(path) ||
+    path.startsWith("/tools/");
+
+  // ---------------------------------------
+  // SPECIAL: PROTECT index.html FROM DOWNLOADERS
+  // ---------------------------------------
+  if (path === "/" || path === "/index.html") {
+    const ua = req.headers.get("user-agent") || "";
+    const accept = req.headers.get("accept") || "";
+
+    const looksBrowser =
+      ua.includes("Chrome") ||
+      ua.includes("Firefox") ||
+      ua.includes("Safari") ||
+      ua.includes("Edge");
+
+    const looksDownloader =
+      accept.includes("application/octet-stream") ||
+      accept.includes("text/plain") ||
+      accept === "*/*";
+
+    const paramDownload = url.searchParams.get("download") === "1";
+
+    if (!looksBrowser || looksDownloader || paramDownload) {
+      return new Response("403 Forbidden", { status: 403 });
+    }
+  }
+
+  // ---------------------------------------
+  // AUTO-PROTECT ALL NON-PUBLIC HTML,
+  // INCLUDING FOLDERS LIKE /vex5/
+  // ---------------------------------------
+  let checkPath = path;
+
+  // Folder detection → treat as index.html
+  if (checkPath.endsWith("/")) {
+    checkPath += "index.html";
+  }
+
+  const isHtml = checkPath.endsWith(".html");
+
+  const publicHtmlFiles = [
+    "/index.html",
+    "/cloak.html",
+    "/login.html",
+  ];
+
+  if (isHtml && !isPublic) {
+    if (!publicHtmlFiles.includes(checkPath)) {
+      if (!authenticated) {
+        return new Response("403 Forbidden", { status: 403 });
+      }
+    }
+  }
+
+  // ---------------------------------------
+  // PROTECT GAMES.HTML & /games/
+  // (extra explicit rule)
+  // ---------------------------------------
+  if (
+    path === "/home.html" ||
+    path === "/games.html" ||
+    path === "/games" ||
+    path.startsWith("/games/")
+  ) {
+    if (!authenticated) {
+      return new Response("403 Forbidden", { status: 403 });
+    }
+  }
+
+  // ---------------------------------------
   // LOGIN HANDLER
-  // ===============================
+  // ---------------------------------------
   if (path === "/login" && req.method === "POST") {
     const form = await req.formData();
     const input = form.get("password");
@@ -25,7 +99,7 @@ serve(async (req) => {
     if (input === PASSWORD) {
       return new Response("OK", {
         headers: {
-          "Set-Cookie": "auth=1; Path=/; HttpOnly; SameSite=Lax",
+          "Set-Cookie": "auth=1; Path=/; HttpOnly",
         },
       });
     }
@@ -33,36 +107,14 @@ serve(async (req) => {
     return new Response("WRONG", { status: 401 });
   }
 
-  // ===============================
-  // PROTECTION RULES ONLY
-  // (No hotlink / no origin restrictions)
-  // ===============================
-
-  // Protect index.html
-  if (path === "/" || path === "/index.html") {
-    if (!authenticated) return new Response("403 Forbidden", { status: 403 });
-  }
-
-  // Protect games and /games/
-  if (
-    path === "/games.html" ||
-    path === "/games" ||
-    path.startsWith("/games/")
-  ) {
-    if (!authenticated) return new Response("403 Forbidden", { status: 403 });
-  }
-
-  // Protect /tools/
-  if (path.startsWith("/tools/")) {
-    if (!authenticated) return new Response("403 Forbidden", { status: 403 });
-  }
-
-  // ===============================
+  // ---------------------------------------
   // FILE SERVER
-  // ===============================
+  // ---------------------------------------
   let filePath = "." + (path === "/" ? "/index.html" : path);
 
-  if (filePath.endsWith("/")) filePath += "index.html";
+  if (filePath.endsWith("/")) {
+    filePath += "index.html";
+  }
 
   try {
     const file = await Deno.readFile(filePath);
@@ -74,9 +126,7 @@ serve(async (req) => {
   }
 });
 
-// ===============================
-// MIME TYPES
-// ===============================
+// MIME types
 function getType(path: string): string {
   if (path.endsWith(".html")) return "text/html";
   if (path.endsWith(".js")) return "application/javascript";
