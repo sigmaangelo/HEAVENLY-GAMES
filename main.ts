@@ -16,6 +16,8 @@ serve(async (req) => {
     "/cloak.html",
     "/login.html",
     "/login",
+    "/index.html",
+    "/",
   ];
 
   const isPublic =
@@ -26,34 +28,46 @@ serve(async (req) => {
   // SPECIAL: PROTECT index.html FROM DOWNLOADERS
   // ---------------------------------------
   if (path === "/" || path === "/index.html") {
-    const ua = req.headers.get("user-agent") || "";
-    const accept = req.headers.get("accept") || "";
+    const ua = (req.headers.get("user-agent") || "").toLowerCase();
+    const accept = (req.headers.get("accept") || "").toLowerCase();
 
     const looksBrowser =
-      ua.includes("Chrome") ||
-      ua.includes("Firefox") ||
-      ua.includes("Safari") ||
-      ua.includes("Edge");
+      ua.includes("chrome") ||
+      ua.includes("firefox") ||
+      ua.includes("safari") ||
+      ua.includes("edg") ||
+      ua.includes("windows nt") ||
+      ua.includes("macintosh") ||
+      ua.includes("android") ||
+      ua.includes("iphone");
 
-    const looksDownloader =
+    const scraperUA =
+      ua.includes("wget") ||
+      ua.includes("curl") ||
+      ua.includes("python") ||
+      ua.includes("httpclient") ||
+      ua.includes("bot") ||
+      ua.includes("spider") ||
+      ua.includes("httrack");
+
+    const badAccept =
+      accept === "" ||
+      accept === "*/*" ||
       accept.includes("application/octet-stream") ||
-      accept.includes("text/plain") ||
-      accept === "*/*";
+      accept.includes("text/plain");
 
-    const paramDownload = url.searchParams.get("download") === "1";
+    const isHead = req.method === "HEAD";
 
-    if (!looksBrowser || looksDownloader || paramDownload) {
+    if (!looksBrowser || scraperUA || badAccept || isHead) {
       return new Response("403 Forbidden", { status: 403 });
     }
   }
 
   // ---------------------------------------
-  // AUTO-PROTECT ALL NON-PUBLIC HTML,
-  // INCLUDING FOLDERS LIKE /vex5/
+  // AUTO-PROTECT ALL NON-PUBLIC HTML (including folders like /vex5/)
   // ---------------------------------------
   let checkPath = path;
 
-  // Folder detection → treat as index.html
   if (checkPath.endsWith("/")) {
     checkPath += "index.html";
   }
@@ -75,8 +89,7 @@ serve(async (req) => {
   }
 
   // ---------------------------------------
-  // PROTECT GAMES.HTML & /games/
-  // (extra explicit rule)
+  // PROTECT home.html, games.html, /games/
   // ---------------------------------------
   if (
     path === "/home.html" ||
