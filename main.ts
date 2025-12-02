@@ -93,7 +93,8 @@ serve(async (req) => {
   // ---------------------------------------
   if (
     path === "/home.html" ||
-    path === "/games.html" ||
+    path === "/gxmes.html" ||
+    path === "/chat.html" ||
     path === "/games" ||
     path.startsWith("/games/")
   ) {
