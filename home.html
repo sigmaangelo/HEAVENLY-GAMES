@@ -3,6 +3,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Home | Sigmagames</title>
+
   <style>
     @font-face {
       font-family: 'Raleway';
@@ -49,7 +50,7 @@
       background-position: center;
       backdrop-filter: blur(1px);
       gap: 10px;
-      position: relative; 
+      position: relative;
     }
 
     /* HEADERS */
@@ -58,9 +59,9 @@
       font-weight: 600;
       letter-spacing: 2px;
       text-shadow: 0 0 12px rgba(255, 255, 255, 0.5),
-        0 0 14px var(--text-glow);
+                   0 0 14px var(--text-glow);
       margin: 0;
-      min-height: 110px; /* fixed height to prevent layout jump */
+      min-height: 110px;
     }
     h2 {
       font-size: clamp(16px, 2vw, 24px);
@@ -79,82 +80,54 @@
       display: inline-block;
     }
 
-    /* Circle Button Positioned Absolutely */
-    .circle-button {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background-color: #990000;
-      color: white;
-      border: none;
+    /* ============================
+       RESPONSIVE ORNAMENT BUTTONS
+    ============================= */
+    .ornament-btn {
+      position: absolute;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 16px;
+      color: white;
+      border-radius: 50%;
+      user-select: none;
       cursor: pointer;
-      position: absolute;
-      bottom: 155px;
-      right: 1075px;
+      width: 6vw;
+      height: 6vw;
+      max-width: 50vw;
+      max-height: 50vw;
+      font-size: 1.2vw;
+      backdrop-filter: blur(1px);
       box-shadow: 0 5px 14px rgba(0, 0, 0, 0.4);
-      transform: none; /* remove translate */
-      user-select: none;
     }
-     .circle-button3 {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background-color: #330000;
-      color: white;
-      border: none;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 16px;
-      cursor: pointer;
-      position: absolute;
-      bottom: 540px;
-      right: 1100px;
-      transform: none; /* remove translate */
-      user-select: none;
-    }
-    .circle-button4 {
-      width: 75px;
-      height: 75px;
-      border-radius: 50%;
-      background-color: #21212c;
-      color: white;
-      border: none;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 16px;
-      cursor: pointer;
-      position: absolute;
-      bottom: 574px;
-      right: 144px;
-      transform: none; /* remove translate */
-      user-select: none;
-      font-size:12px;
-    }
-.circle-button2 {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background-color:   #00004d;
-      color: white;
-      border: none;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 16px;
-      cursor: pointer;
-      position: absolute;
-      bottom: 103px;
-      right: 320px;
-      box-shadow: 0 5px 14px rgba(0, 0, 0, 0.4);
-      transform: none; /* remove translate */
-      user-select: none;
-    }
+/* TOOLS — dark red ornament upper-left */
+#toolsBtn {
+  background: #330000;
+  top: 8%;
+  left: 13.5%;
+}
+
+/* GAMES — bright red ornament lower-left */
+#gamesBtn {
+  background: #8a0000;
+  top: 67%;
+  left: 15.5%;
+}
+
+/* CHAT — blue ornament bottom-right */
+#chatBtn {
+  background: #00004d;
+  top: 74%;
+  right: 23.5%;
+}
+
+/* DISCLAIMER — gray ornament upper-right */
+#disclaimerBtn {
+  background: #21212c;
+  top: 4%;
+  right: 10%;
+  font-size: 1vw;
+}
 
     /* Custom cursor */
     .cursor {
@@ -163,68 +136,53 @@
       background-color: var(--text-color);
       border-radius: 50%;
       position: absolute;
-
       pointer-events: none;
       opacity: 0.85;
       z-index: 10000;
     }
-    
-    /*if u need a reminder on translating*/
-    /*https://stackoverflow.com/questions/16812911/css-keyframe-animation-with-translation-transform-snaps-to-whole-pixels-in-ie-10*/
+
     .fly-down {
-  transform: translateY(-200px);
-    opacity: 0;
-  animation: flyDown 1s ease-out forwards;
-    animation-delay: 1s;
-  position: relative;
-  left: -35px;
-}
+      transform: translateY(-200px);
+      opacity: 0;
+      animation: flyDown 1s ease-out forwards;
+      animation-delay: 1s;
+      position: relative;
+      left: -35px;
+    }
 
-.fly-left {
-  display: inline-block;
-  transform: translateX(-300px);
-  opacity: 0;
-  animation: flyLeft 1s ease-out forwards;
-  animation-delay: 1.6s;
-  color:#E53935;
-   position: relative;
-  left: -35px;
-}
+    .fly-left {
+      display: inline-block;
+      transform: translateX(-300px);
+      opacity: 0;
+      animation: flyLeft 1s ease-out forwards;
+      animation-delay: 1.6s;
+      color:#E53935;
+      position: relative;
+      left: -35px;
+    }
 
-.fly-right {
-  display: inline-block;
-   position: relative;
-  left: -35px;
-  transform: translateX(300px);
-  opacity: 0;
-  color: green;
-  animation: flyRight 1s ease-out forwards;
-  animation-delay: 1.6s;
-}
+    .fly-right {
+      display: inline-block;
+      position: relative;
+      left: -35px;
+      transform: translateX(300px);
+      opacity: 0;
+      color: green;
+      animation: flyRight 1s ease-out forwards;
+      animation-delay: 1.6s;
+    }
+    #unmuteBtn1{
+        background-color:lightgreen;
+        border-radius:20px;
+        padding:20px;
+        min-width:20px;
+    }
 
-@keyframes flyDown {
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@keyframes flyLeft {
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes flyRight {
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
+    @keyframes flyDown { to { transform: translateY(0); opacity: 1; } }
+    @keyframes flyLeft { to { transform: translateX(0); opacity: 1; } }
+    @keyframes flyRight { to { transform: translateX(0); opacity: 1; } }
 
   </style>
-</head>
      <script>
  
 
@@ -237,86 +195,82 @@
         win.document.body.appendChild(iframe);
     }
 </script>
+</head>
+
 <body>
   <div class="cursor"></div>
+
   <div class="content-side">
-   <h1>
-  <div id="line1" class="fly-down">Heavenly Games</div>
-  <div>
-    <span id="line2a" class="fly-left">XMAS</span>
-    <span id="line2b" class="fly-right"> UPDATE</span>
-  </div>
-</h1>
+    <h1>
+      <div id="line1" class="fly-down">Heavenly Games</div>
+      <div>
+        <span id="line2a" class="fly-left">XMAS</span>
+        <span id="line2b" class="fly-right"> UPDATE</span>
+      </div>
+    </h1>
 
     <h2>version 1.3</h2>
-    <h3>PANIC KEY IS / (Fullscreen the page)</h3>
+    <h3>PANIC KEY IS / </h3>
 
-    <button class="circle-button" onclick="cloak('gimes.html')" href="#">Games</button>
-        <button class="circle-button2" onclick="cloak('chat.html')" href="#">Chat</button>
-        <button class="circle-button3">Tools</button>
-                <button class="circle-button4" onclick="cloak('disclaimer.html')" href="#">Disclaimer</button>
-<!--To add a link to a button onclick="window.location.href = 'disclaimer.html';"-->
-<!-- <!-- YouTube players -->
+    <!-- NEW RESPONSIVE BUTTONS -->
+    <div id="toolsBtn" class="ornament-btn"    onclick="cloak('chat.html')" href="#">Tools</div>
+    <div id="gamesBtn" class="ornament-btn"onclick="cloak('gimes.html')" href="#">Games</div>
+    <div id="chatBtn" class="ornament-btn" onclick="location.href='chat.html'">Chat</div>
+    <div id="disclaimerBtn" class="ornament-btn" onclick="cloak('disclaimer.html')" href="#">Disclaimer</div>
 
-    
-  <!-- <div id="player1"></div>
-  <div id="player2"></div>
-  <button id="unmuteBtn1">Max Verstappen</button>
-  <button id="unmuteBtn2">First Christmas Song I found</button>
+    <!-- YouTube players -->
+  <!--  <div id="player1"></div>-->
+  <!--  <div id="player2"></div>-->
+  <!--  <button id="unmuteBtn1">Exclusive Games</button>-->
+  <!--  <button id="unmuteBtn2">Exclusive Games</button>-->
+
+  <!--  <script>-->
+  <!--    var player1, player2;-->
+  <!--    function onYouTubeIframeAPIReady() {-->
+  <!--      player1 = new YT.Player('player1', {-->
+  <!--        height: '1', width: '1',-->
+  <!--        videoId: 'oXXBKK3FFBE',-->
+  <!--        playerVars: { autoplay: 1, mute: 1, controls: 1 }-->
+  <!--      });-->
+
+  <!--      player2 = new YT.Player('player2', {-->
+  <!--        height: '1', width: '1',-->
+  <!--        videoId: 'oXXBKK3FFBE,-->
+  <!--        playerVars: { autoplay: 1, mute: 1, controls: 1 }-->
+  <!--      });-->
+  <!--    }-->
+
+  <!--    document.getElementById('unmuteBtn1').onclick = function() {-->
+  <!--      if (player1.isMuted()) player1.unMute();-->
+  <!--      if (player1.getPlayerState() === YT.PlayerState.PLAYING) player1.pauseVideo();-->
+  <!--      else player1.playVideo();-->
+  <!--    };-->
+  <!--    document.getElementById('unmuteBtn2').onclick = function() {-->
+  <!--      if (player2.isMuted()) player2.unMute();-->
+  <!--      if (player2.getPlayerState() === YT.PlayerState.PLAYING) player2.pauseVideo();-->
+  <!--      else player2.playVideo();-->
+  <!--    };-->
+
+  <!--    var tag = document.createElement('script');-->
+  <!--    tag.src = "https://www.youtube.com/iframe_api";-->
+  <!--    document.getElementsByTagName('script')[0].parentNode.insertBefore(tag, document.getElementsByTagName('script')[0]);-->
+  <!--  </script>-->
+  <!--</div>-->
 
   <script>
-    var player1, player2;
-
-    function onYouTubeIframeAPIReady() {
-      player1 = new YT.Player('player1', {
-        height: '1',
-        width: '1',
-        videoId: 'oXXBKK3FFBE', // First song
-        playerVars: { autoplay: 1, mute: 1, controls: 1 }
-      });
-      player2 = new YT.Player('player2', {
-        height: '1',
-        width: '1',
-        videoId: 'yXQViqx6GMY', // Mariah Carey Christmas song
-        playerVars: { autoplay: 1, mute: 1, controls: 1 }
-      });
-    }
-
-    // Toggle first song
-    document.getElementById('unmuteBtn1').addEventListener('click', function() {
-      if (player1.isMuted()) player1.unMute();
-      if (player1.getPlayerState() === YT.PlayerState.PLAYING) player1.pauseVideo();
-      else player1.playVideo();
-    });
-
-    // Toggle second song
-    document.getElementById('unmuteBtn2').addEventListener('click', function() {
-      if (player2.isMuted()) player2.unMute();
-      if (player2.getPlayerState() === YT.PlayerState.PLAYING) player2.pauseVideo();
-      else player2.playVideo();
-    });
-
-    // Load YouTube API
-    var tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    document.getElementsByTagName('script')[0].parentNode.insertBefore(tag, document.getElementsByTagName('script')[0]); -->
-  </script> -->
-
-  </div>
-  <script>
-    // Custom cursor follow
+    // Custom cursor movement
     document.addEventListener('mousemove', (e) => {
-      const circleCursor = document.querySelector('.cursor');
-      circleCursor.style.left = e.pageX + 'px';
-      circleCursor.style.top = e.pageY + 'px';
+      const c = document.querySelector('.cursor');
+      c.style.left = e.pageX + 'px';
+      c.style.top = e.pageY + 'px';
     });
-    document.addEventListener("keydown", function(e) {
-  if (e.key.toLowerCase() === "/") {
-    window.location.href = "https://codehs.com/sandbox?ref=20#/";
-  }
-});
 
-   
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "/") {
+        window.location.href = "https://codehs.com/sandbox?ref=20#/";
+      }
+    });
   </script>
+
 </body>
 </html>
