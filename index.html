@@ -1,148 +1,117 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Cloaked Entry</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cloaked Entry Fullscreen</title>
 <style>
   body {
-    background: #f4f4f4;
-    font-family: "Segoe UI", Arial, sans-serif;
-    text-align: center;
-    margin-top: 120px;
-  } 
+    display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: Arial, sans-serif;
+    background: #0d0d0d; color: white;
+  }
 
-  h1 {
-    font-size: 36px;
-    font-weight: 700;
-    color: #222;
-    margin-bottom: 30px;
+  .box {
+    background: #1a1a1a;
+    padding: 30px;
+    border-radius: 12px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    border: 1px solid #333;
+  }
+
+  input {
+    width: 90%;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: none;
+    background: #333;
+    color: white;
+    font-size: 16px;
+    outline: none;
   }
 
   button {
-    padding: 15px 35px;
-    font-size: 20px;
-    background: black;
+    margin-top: 15px;
+    padding: 12px 20px;
+    width: 100%;
+    background: #4caf50;
     color: white;
     border: none;
-    border-radius: 12px;
+    border-radius: 8px;
+    font-size: 16px;
     cursor: pointer;
-    transition: 0.2s ease;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transition: 0.2s;
   }
 
-  button:hover {
-    opacity: 0.85;
-    transform: scale(1.03);
-  }
-
-  button:active {
-    transform: scale(0.98);
-  }
+  button:hover { background: #43a047; }
+  #msg { margin-top: 10px; color: #ff5252; font-size: 14px; }
 </style>
 </head>
-
 <body>
 
-<h1>Press to Cloak</h1>
-<button onclick="cloak()">CLOAK</button>
+<div class="box">
+  <h2>Enter Password</h2>
+  <input id="pass" type="password" />
+  <button id="enterBtn">Enter</button>
+  <p id="msg"></p>
+</div>
 
 <script>
 const PASSWORD = "ᎤᏇᏕ1Ꮭ0ᎧᏰᎧᎥᏬᎩᏖᏒᎴ";
 
-function cloak() {
-    let win = window.open("about:blank", "_blank");
+// Function to handle correct password
+async function login() {
+    const entered = document.getElementById('pass').value;
+    if (entered !== PASSWORD) {
+        document.getElementById('msg').innerText = "Wrong password";
+        return;
+    }
 
-    win.document.write(`
+    // Open main content in new fullscreen tab
+    const g = window.open("about:blank", "_blank");
+    g.document.write(`
       <style>
-        body {
-          background: #0d0d0d;
-          color: white;
-          font-family: Arial, sans-serif;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 100vh;
-          margin: 0;
-        }
-        .box {
-          background: #1a1a1a;
-          padding: 30px;
-          border-radius: 12px;
-          width: 300px;
-          text-align: center;
-          box-shadow: 0 0 20px rgba(0,0,0,0.5);
-          border: 1px solid #333;
-        }
-        h2 { margin-top: 0; font-weight: bold; }
-        input {
-          width: 90%;
-          padding: 12px;
-          margin-top: 10px;
-          border-radius: 8px;
-          border: none;
-          background: #333;
-          color: white;
-          font-size: 16px;
-          outline: none;
-        }
-        button {
-          margin-top: 15px;
-          padding: 12px 20px;
-          width: 100%;
-          background: #4caf50;
-          color: white;
-          border: none;
-          border-radius: 8px;
-          font-size: 16px;
-          cursor: pointer;
-          transition: 0.2s;
-        }
-        button:hover { background: #43a047; }
-        #msg { margin-top: 10px; color: #ff5252; font-size: 14px; }
+        html, body { margin:0; height:100%; }
+        iframe { position:fixed; top:0; left:0; width:100%; height:100%; border:none; }
       </style>
-
-      <div class="box">
-        <h2>Enter Password</h2>
-        <input id="pass" type="password" />
-        <button onclick="login()">Enter</button>
-        <p id='msg'></p>
-      </div>
-
-      <script>
-      async function login() {
-        const entered = document.getElementById('pass').value;
-
-        if (entered !== "${PASSWORD}") {
-            document.getElementById('msg').innerText = "Wrong password";
-            return;
-        }
-
-        const fd = new FormData();
-        fd.append("password", "${PASSWORD}");
-
-        const res = await fetch("/login", { method:"POST", body:fd });
-
-        if (!res.ok) {
-            document.getElementById('msg').innerText = "Server rejected";
-            return;
-        }
-
-        let g = window.open("about:blank", "_blank");
-        let iframe = g.document.createElement("iframe");
-
-        iframe.src = "/home.html"; 
-        iframe.style = "position:fixed;top:0;left:0;width:100%;height:100%;border:none;";
-
-        g.document.body.style.margin = 0;
-        g.document.body.appendChild(iframe);
-
-        window.close();
-      }
-      <\/script>
+      <iframe src="/home.html"></iframe>
     `);
-
-    win.document.close();
+    g.document.close();
+    window.close(); // Close cloak tab
 }
+
+// Attach login to button
+document.getElementById("enterBtn").addEventListener("click", login);
+
+// Fullscreen request function
+async function goFullscreen() {
+    const elem = document.documentElement;
+    if (elem.requestFullscreen) {
+        await elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) {
+        await elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) {
+        await elem.msRequestFullscreen();
+    }
+}
+
+// Auto-close tab if fullscreen is exited
+function handleFullscreenChange() {
+    const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
+    if (!isFullscreen) {
+        window.close(); // Close the tab immediately
+    }
+}
+
+// Events for fullscreen exit
+document.addEventListener('fullscreenchange', handleFullscreenChange);
+document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+
+// Enter fullscreen on load
+window.onload = goFullscreen;
 </script>
 
 </body>
