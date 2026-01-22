@@ -8,6 +8,7 @@
   body {
     display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: Arial, sans-serif;
     background: #0d0d0d; color: white;
+    overflow: hidden;
   }
 
   #cloakBtn {
@@ -55,6 +56,15 @@
 
   button.submitBtn:hover { background: #43a047; }
   #msg { margin-top: 10px; color: #ff5252; font-size: 14px; }
+
+  iframe {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
 </style>
 </head>
 <body>
@@ -68,12 +78,15 @@
   <p id="msg"></p>
 </div>
 
+<iframe id="homeFrame" src=""></iframe>
+
 <script>
 const PASSWORD = "ᎤᏇᏕ1Ꮭ0ᎧᏰᎧᎥᏬᎩᏖᏒᎴ";
 
 const cloakBtn = document.getElementById('cloakBtn');
 const passwordBox = document.getElementById('passwordBox');
 const enterBtn = document.getElementById('enterBtn');
+const homeFrame = document.getElementById('homeFrame');
 
 // Function to go fullscreen
 async function goFullscreen() {
@@ -109,8 +122,10 @@ enterBtn.addEventListener('click', () => {
         document.getElementById('msg').innerText = "Wrong password";
         return;
     }
-    // Correct password → go to home.html in the same tab
-    window.location.href = "/home.html";
+    // Correct password → show home.html in fullscreen iframe
+    passwordBox.style.display = 'none';
+    homeFrame.src = "/home.html";
+    homeFrame.style.display = 'block';
 });
 
 // Fullscreen exit listeners
