@@ -302,18 +302,10 @@ footer { margin:30px 0; opacity:0.6; font-size:0.9rem; }
     <a class="game-card" data-url="https://heavenly2.deno.dev/html/superfighters/">superfighters</a>
     <a class="game-card" data-url="https://heavenly2.deno.dev/html/top%20speed%203d/">topspeed3D</a>
     <a class="game-card" data-url="https://heavenly2.deno.dev/html/tap%20tap%20shots/">tap-tap-shots</a>
-<a class="game-card" id="newGamesLink" href="#">NEW GAMES</a>
+<div id="newGamesBtn" class="ornament-btn">NEW GAMES</div>
 
 </section>
-<script>
-// When clicking NEW GAMES, open the overlay menu instead of treating it like a game
-document.getElementById('newGamesLink').addEventListener('click', (e) => {
-  e.preventDefault(); // prevent default link behavior
-
-  // Show the overlay iframe containing the NEW GAMES menu
-  const overlay = parent.document.getElementById('newGamesOverlay');
-  if (overlay) overlay.style.display = 'block';
-});
+<script>document.getElementById('newGamesBtn').addEventListener('click', () => loadInIframe('https://heavenlyselenite.deno.dev/'));
 </script>
 
 <!-- Overlay for in-page game popup -->
