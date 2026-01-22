@@ -3,135 +3,147 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Cloaked Entry Fullscreen</title>
+<title>Cloaked Entry</title>
+
 <style>
-  body {
-    display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: Arial, sans-serif;
-    background: #0d0d0d; color: white;
-    overflow: hidden;
-  }
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  background: #0d0d0d;
+  color: white;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
 
-  #cloakBtn {
-    padding: 20px; font-size: 1.5em; cursor: pointer; background: black; color: white; border: none; border-radius: 12px;
-    transition: 0.2s;
-  }
-  #cloakBtn:hover { opacity: 0.85; transform: scale(1.03); }
-  #cloakBtn:active { transform: scale(0.98); }
+/* Cloak button */
+#cloakBtn {
+  padding: 20px;
+  font-size: 1.5em;
+  cursor: pointer;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  transition: 0.2s;
+}
+#cloakBtn:hover { opacity: 0.85; transform: scale(1.03); }
+#cloakBtn:active { transform: scale(0.98); }
 
-  .box {
-    display: none;
-    background: #1a1a1a;
-    padding: 30px;
-    border-radius: 12px;
-    width: 300px;
-    text-align: center;
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
-    border: 1px solid #333;
-  }
+/* Password box */
+#passwordBox {
+  display: none;
+  background: #1a1a1a;
+  padding: 30px;
+  border-radius: 12px;
+  width: 300px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  border: 1px solid #333;
+}
 
-  input {
-    width: 90%;
-    padding: 12px;
-    margin-top: 10px;
-    border-radius: 8px;
-    border: none;
-    background: #333;
-    color: white;
-    font-size: 16px;
-    outline: none;
-  }
+input {
+  width: 90%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: none;
+  background: #333;
+  color: white;
+  font-size: 16px;
+}
 
-  button.submitBtn {
-    margin-top: 15px;
-    padding: 12px 20px;
-    width: 100%;
-    background: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.2s;
-  }
+button.submitBtn {
+  margin-top: 15px;
+  padding: 12px;
+  width: 100%;
+  background: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
 
-  button.submitBtn:hover { background: #43a047; }
-  #msg { margin-top: 10px; color: #ff5252; font-size: 14px; }
+#msg {
+  margin-top: 10px;
+  color: #ff5252;
+  font-size: 14px;
+}
 
-  iframe {
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-  }
+/* Fullscreen iframe */
+#mainFrame {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: none;
+  background: black;
+}
 </style>
 </head>
+
 <body>
 
 <button id="cloakBtn">CLOAK</button>
 
-<div class="box" id="passwordBox">
+<div id="passwordBox">
   <h2>Enter Password</h2>
   <input id="pass" type="password" />
   <button class="submitBtn" id="enterBtn">Enter</button>
   <p id="msg"></p>
 </div>
 
-<iframe id="homeFrame" src=""></iframe>
+<iframe id="mainFrame" allowfullscreen></iframe>
 
 <script>
 const PASSWORD = "ᎤᏇᏕ1Ꮭ0ᎧᏰᎧᎥᏬᎩᏖᏒᎴ";
 
-const cloakBtn = document.getElementById('cloakBtn');
-const passwordBox = document.getElementById('passwordBox');
-const enterBtn = document.getElementById('enterBtn');
-const homeFrame = document.getElementById('homeFrame');
+const cloakBtn = document.getElementById("cloakBtn");
+const passwordBox = document.getElementById("passwordBox");
+const enterBtn = document.getElementById("enterBtn");
+const frame = document.getElementById("mainFrame");
 
-// Function to go fullscreen
-async function goFullscreen() {
-    const elem = document.documentElement;
-    if (elem.requestFullscreen) {
-        await elem.requestFullscreen();
-    } else if (elem.webkitRequestFullscreen) {
-        await elem.webkitRequestFullscreen();
-    } else if (elem.msRequestFullscreen) {
-        await elem.msRequestFullscreen();
-    }
+/* ===== FULLSCREEN (USER GESTURE SAFE) ===== */
+cloakBtn.onclick = async () => {
+  await document.documentElement.requestFullscreen();
+  cloakBtn.style.display = "none";
+  passwordBox.style.display = "block";
+};
+
+/* ===== PASSWORD CHECK ===== */
+enterBtn.onclick = () => {
+  if (document.getElementById("pass").value !== PASSWORD) {
+    document.getElementById("msg").innerText = "Wrong password";
+    return;
+  }
+
+  passwordBox.style.display = "none";
+  frame.src = "/home.html";   // stays fullscreen
+  frame.style.display = "block";
+};
+
+/* ===== PANIC SYSTEM (WORKS EVERYWHERE) ===== */
+function panic() {
+  frame.src = "about:blank";
+  document.body.innerHTML = "";
+  document.title = "Google Docs";
 }
 
-// Auto-close if fullscreen is exited
-function handleFullscreenChange() {
-    const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
-    if (!isFullscreen) {
-        window.close(); // Close tab if fullscreen exits
-    }
-}
-
-// Show password box and hide cloak button after fullscreen
-cloakBtn.addEventListener('click', async () => {
-    await goFullscreen();
-    cloakBtn.style.display = 'none';
-    passwordBox.style.display = 'block';
+document.addEventListener("fullscreenchange", () => {
+  if (!document.fullscreenElement) panic();
 });
 
-// Handle password submit
-enterBtn.addEventListener('click', () => {
-    const entered = document.getElementById('pass').value;
-    if (entered !== PASSWORD) {
-        document.getElementById('msg').innerText = "Wrong password";
-        return;
-    }
-    // Correct password → show home.html in fullscreen iframe
-    passwordBox.style.display = 'none';
-    homeFrame.src = "/home.html";
-    homeFrame.style.display = 'block';
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") panic();
 });
 
-// Fullscreen exit listeners
-document.addEventListener('fullscreenchange', handleFullscreenChange);
-document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) panic();
+});
+
+window.addEventListener("blur", panic);
 </script>
 
 </body>
