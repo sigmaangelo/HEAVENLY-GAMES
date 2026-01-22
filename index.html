@@ -16,7 +16,6 @@ html, body {
   overflow: hidden;
 }
 
-/* Cloak button */
 #cloakBtn {
   padding: 20px;
   font-size: 1.5em;
@@ -25,12 +24,8 @@ html, body {
   color: white;
   border: none;
   border-radius: 12px;
-  transition: 0.2s;
 }
-#cloakBtn:hover { opacity: 0.85; transform: scale(1.03); }
-#cloakBtn:active { transform: scale(0.98); }
 
-/* Password box */
 #passwordBox {
   display: none;
   background: #1a1a1a;
@@ -38,8 +33,6 @@ html, body {
   border-radius: 12px;
   width: 300px;
   text-align: center;
-  box-shadow: 0 0 20px rgba(0,0,0,0.5);
-  border: 1px solid #333;
 }
 
 input {
@@ -50,7 +43,6 @@ input {
   border: none;
   background: #333;
   color: white;
-  font-size: 16px;
 }
 
 button.submitBtn {
@@ -58,28 +50,23 @@ button.submitBtn {
   padding: 12px;
   width: 100%;
   background: #4caf50;
-  color: white;
   border: none;
   border-radius: 8px;
-  font-size: 16px;
   cursor: pointer;
 }
 
 #msg {
   margin-top: 10px;
   color: #ff5252;
-  font-size: 14px;
 }
 
-/* Fullscreen iframe */
-#mainFrame {
+iframe {
   position: fixed;
   inset: 0;
   width: 100%;
   height: 100%;
   border: none;
   display: none;
-  background: black;
 }
 </style>
 </head>
@@ -95,7 +82,7 @@ button.submitBtn {
   <p id="msg"></p>
 </div>
 
-<iframe id="mainFrame" allowfullscreen></iframe>
+<iframe id="homeFrame"></iframe>
 
 <script>
 const PASSWORD = "ᎤᏇᏕ1Ꮭ0ᎧᏰᎧᎥᏬᎩᏖᏒᎴ";
@@ -103,16 +90,16 @@ const PASSWORD = "ᎤᏇᏕ1Ꮭ0ᎧᏰᎧᎥᏬᎩᏖᏒᎴ";
 const cloakBtn = document.getElementById("cloakBtn");
 const passwordBox = document.getElementById("passwordBox");
 const enterBtn = document.getElementById("enterBtn");
-const frame = document.getElementById("mainFrame");
+const frame = document.getElementById("homeFrame");
 
-/* ===== FULLSCREEN (USER GESTURE SAFE) ===== */
-cloakBtn.onclick = async () => {
-  await document.documentElement.requestFullscreen();
+/* ===== ENTER FULLSCREEN ===== */
+cloakBtn.onclick = () => {
+  document.documentElement.requestFullscreen();
   cloakBtn.style.display = "none";
   passwordBox.style.display = "block";
 };
 
-/* ===== PASSWORD CHECK ===== */
+/* ===== PASSWORD ===== */
 enterBtn.onclick = () => {
   if (document.getElementById("pass").value !== PASSWORD) {
     document.getElementById("msg").innerText = "Wrong password";
@@ -120,30 +107,25 @@ enterBtn.onclick = () => {
   }
 
   passwordBox.style.display = "none";
-  frame.src = "/home.html";   // stays fullscreen
+  frame.src = "/home.html";
   frame.style.display = "block";
 };
 
-/* ===== PANIC SYSTEM (WORKS EVERYWHERE) ===== */
-function panic() {
-  frame.src = "about:blank";
-  document.body.innerHTML = "";
-  document.title = "Google Docs";
+/* ===== YOUR WORKING ESC METHOD ===== */
+function handleFullscreenChange() {
+  const fs =
+    document.fullscreenElement ||
+    document.webkitFullscreenElement ||
+    document.msFullscreenElement;
+
+  if (!fs) {
+    window.location.href = "about:blank";
+  }
 }
 
-document.addEventListener("fullscreenchange", () => {
-  if (!document.fullscreenElement) panic();
-});
-
-document.addEventListener("keydown", e => {
-  if (e.key === "Escape") panic();
-});
-
-document.addEventListener("visibilitychange", () => {
-  if (document.hidden) panic();
-});
-
-window.addEventListener("blur", panic);
+document.addEventListener("fullscreenchange", handleFullscreenChange);
+document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
+document.addEventListener("MSFullscreenChange", handleFullscreenChange);
 </script>
 
 </body>
