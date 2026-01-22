@@ -10,7 +10,15 @@
     background: #0d0d0d; color: white;
   }
 
+  #cloakBtn {
+    padding: 20px; font-size: 1.5em; cursor: pointer; background: black; color: white; border: none; border-radius: 12px;
+    transition: 0.2s;
+  }
+  #cloakBtn:hover { opacity: 0.85; transform: scale(1.03); }
+  #cloakBtn:active { transform: scale(0.98); }
+
   .box {
+    display: none;
     background: #1a1a1a;
     padding: 30px;
     border-radius: 12px;
@@ -32,7 +40,7 @@
     outline: none;
   }
 
-  button {
+  button.submitBtn {
     margin-top: 15px;
     padding: 12px 20px;
     width: 100%;
@@ -45,47 +53,29 @@
     transition: 0.2s;
   }
 
-  button:hover { background: #43a047; }
+  button.submitBtn:hover { background: #43a047; }
   #msg { margin-top: 10px; color: #ff5252; font-size: 14px; }
 </style>
 </head>
 <body>
 
-<div class="box">
+<button id="cloakBtn">CLOAK</button>
+
+<div class="box" id="passwordBox">
   <h2>Enter Password</h2>
   <input id="pass" type="password" />
-  <button id="enterBtn">Enter</button>
+  <button class="submitBtn" id="enterBtn">Enter</button>
   <p id="msg"></p>
 </div>
 
 <script>
 const PASSWORD = "ᎤᏇᏕ1Ꮭ0ᎧᏰᎧᎥᏬᎩᏖᏒᎴ";
 
-// Function to handle correct password
-async function login() {
-    const entered = document.getElementById('pass').value;
-    if (entered !== PASSWORD) {
-        document.getElementById('msg').innerText = "Wrong password";
-        return;
-    }
+const cloakBtn = document.getElementById('cloakBtn');
+const passwordBox = document.getElementById('passwordBox');
+const enterBtn = document.getElementById('enterBtn');
 
-    // Open main content in new fullscreen tab
-    const g = window.open("about:blank", "_blank");
-    g.document.write(`
-      <style>
-        html, body { margin:0; height:100%; }
-        iframe { position:fixed; top:0; left:0; width:100%; height:100%; border:none; }
-      </style>
-      <iframe src="/home.html"></iframe>
-    `);
-    g.document.close();
-    window.close(); // Close cloak tab
-}
-
-// Attach login to button
-document.getElementById("enterBtn").addEventListener("click", login);
-
-// Fullscreen request function
+// Function to go fullscreen
 async function goFullscreen() {
     const elem = document.documentElement;
     if (elem.requestFullscreen) {
@@ -97,21 +87,36 @@ async function goFullscreen() {
     }
 }
 
-// Auto-close tab if fullscreen is exited
+// Auto-close if fullscreen is exited
 function handleFullscreenChange() {
     const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
     if (!isFullscreen) {
-        window.close(); // Close the tab immediately
+        window.close(); // Close tab if fullscreen exits
     }
 }
 
-// Events for fullscreen exit
+// Show password box and hide cloak button after fullscreen
+cloakBtn.addEventListener('click', async () => {
+    await goFullscreen();
+    cloakBtn.style.display = 'none';
+    passwordBox.style.display = 'block';
+});
+
+// Handle password submit
+enterBtn.addEventListener('click', () => {
+    const entered = document.getElementById('pass').value;
+    if (entered !== PASSWORD) {
+        document.getElementById('msg').innerText = "Wrong password";
+        return;
+    }
+    // Correct password → go to home.html in the same tab
+    window.location.href = "/home.html";
+});
+
+// Fullscreen exit listeners
 document.addEventListener('fullscreenchange', handleFullscreenChange);
 document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
 document.addEventListener('MSFullscreenChange', handleFullscreenChange);
-
-// Enter fullscreen on load
-window.onload = goFullscreen;
 </script>
 
 </body>
