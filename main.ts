@@ -9,103 +9,14 @@ serve(async (req) => {
   const cookies = req.headers.get("cookie") || "";
   const authenticated = cookies.includes("auth=1");
 
-  // ---------------------------------------
-  // PUBLIC PAGES
-  // ---------------------------------------
-  const publicPaths = [
-    "/cloak.html",
-    "/login.html",
-    "/login",
-    "/index.html",
-    "/",
-  ];
+  /* ===== PUBLIC ROUTES ===== */
+  const publicPaths = ["/", "/index.html", "/cloak.html", "/login"];
 
   const isPublic =
     publicPaths.includes(path) ||
-    path.startsWith("/tools/");
+    path.startsWith("/assets/");
 
-  // ---------------------------------------
-  // SPECIAL: PROTECT index.html FROM DOWNLOADERS
-  // ---------------------------------------
-  if (path === "/" || path === "/index.html") {
-    const ua = (req.headers.get("user-agent") || "").toLowerCase();
-    const accept = (req.headers.get("accept") || "").toLowerCase();
-
-    const looksBrowser =
-      ua.includes("chrome") ||
-      ua.includes("firefox") ||
-      ua.includes("safari") ||
-      ua.includes("edg") ||
-      ua.includes("windows nt") ||
-      ua.includes("macintosh") ||
-      ua.includes("android") ||
-      ua.includes("iphone");
-
-    const scraperUA =
-      ua.includes("wget") ||
-      ua.includes("curl") ||
-      ua.includes("python") ||
-      ua.includes("httpclient") ||
-      ua.includes("bot") ||
-      ua.includes("spider") ||
-      ua.includes("httrack");
-
-    const badAccept =
-      accept === "" ||
-      accept === "*/*" ||
-      accept.includes("application/octet-stream") ||
-      accept.includes("text/plain");
-
-    const isHead = req.method === "HEAD";
-
-    if (!looksBrowser || scraperUA || badAccept || isHead) {
-      return new Response("403 Forbidden", { status: 403 });
-    }
-  }
-
-  // ---------------------------------------
-  // AUTO-PROTECT ALL NON-PUBLIC HTML (including folders like /vex5/)
-  // ---------------------------------------
-  let checkPath = path;
-
-  if (checkPath.endsWith("/")) {
-    checkPath += "index.html";
-  }
-
-  const isHtml = checkPath.endsWith(".html");
-
-  const publicHtmlFiles = [
-    "/index.html",
-    "/cloak.html",
-    "/login.html",
-  ];
-
-  if (isHtml && !isPublic) {
-    if (!publicHtmlFiles.includes(checkPath)) {
-      if (!authenticated) {
-        return new Response("403 Forbidden", { status: 403 });
-      }
-    }
-  }
-
-  // ---------------------------------------
-  // PROTECT home.html, games.html, /games/
-  // ---------------------------------------
-  if (
-    path === "/home.html" ||
-    path === "/gxmes.html" ||
-    path === "/chat.html" ||
-    path === "/games" ||
-    path.startsWith("/games/")
-  ) {
-    if (!authenticated) {
-      return new Response("403 Forbidden", { status: 403 });
-    }
-  }
-
-  // ---------------------------------------
-  // LOGIN HANDLER
-  // ---------------------------------------
+  /* ===== LOGIN ===== */
   if (path === "/login" && req.method === "POST") {
     const form = await req.formData();
     const input = form.get("password");
@@ -113,7 +24,7 @@ serve(async (req) => {
     if (input === PASSWORD) {
       return new Response("OK", {
         headers: {
-          "Set-Cookie": "auth=1; Path=/; HttpOnly",
+          "Set-Cookie": "auth=1; Path=/; HttpOnly; SameSite=Strict",
         },
       });
     }
@@ -121,9 +32,19 @@ serve(async (req) => {
     return new Response("WRONG", { status: 401 });
   }
 
-  // ---------------------------------------
-  // FILE SERVER
-  // ---------------------------------------
+  /* ===== PROTECT PRIVATE HTML ===== */
+  if (
+    path === "/home.html" ||
+    path === "/gxmes.html" ||
+    path === "/chat.html" ||
+    path === "/disclaimer.html"
+  ) {
+    if (!authenticated) {
+      return new Response("403 Forbidden", { status: 403 });
+    }
+  }
+
+  /* ===== FILE SERVER ===== */
   let filePath = "." + (path === "/" ? "/index.html" : path);
 
   if (filePath.endsWith("/")) {
@@ -140,7 +61,6 @@ serve(async (req) => {
   }
 });
 
-// MIME types
 function getType(path: string): string {
   if (path.endsWith(".html")) return "text/html";
   if (path.endsWith(".js")) return "application/javascript";
