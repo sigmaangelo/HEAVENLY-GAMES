@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Cloaked Entry</title>
+
 <style>
 html, body {
   margin: 0;
@@ -14,6 +15,7 @@ html, body {
   font-family: Arial, sans-serif;
   overflow: hidden;
 }
+
 #cloakBtn {
   padding: 20px;
   font-size: 1.5em;
@@ -23,6 +25,7 @@ html, body {
   border: none;
   border-radius: 12px;
 }
+
 #passwordBox {
   display: none;
   background: #1a1a1a;
@@ -31,6 +34,7 @@ html, body {
   width: 300px;
   text-align: center;
 }
+
 input {
   width: 90%;
   padding: 12px;
@@ -40,6 +44,7 @@ input {
   background: #333;
   color: white;
 }
+
 button.submitBtn {
   margin-top: 15px;
   padding: 12px;
@@ -49,7 +54,12 @@ button.submitBtn {
   border-radius: 8px;
   cursor: pointer;
 }
-#msg { margin-top: 10px; color: #ff5252; }
+
+#msg {
+  margin-top: 10px;
+  color: #ff5252;
+}
+
 iframe {
   position: fixed;
   inset: 0;
@@ -60,6 +70,7 @@ iframe {
 }
 </style>
 </head>
+
 <body>
 
 <button id="cloakBtn">CLOAK</button>
@@ -113,8 +124,7 @@ function handleFullscreenChange() {
     document.webkitFullscreenElement ||
     document.msFullscreenElement;
 
-  // Panic only if iframe NOT visible
-  if (!fs && frame.style.display !== "block") {
+  if (!fs) {
     window.location.href = "about:blank";
   }
 }
