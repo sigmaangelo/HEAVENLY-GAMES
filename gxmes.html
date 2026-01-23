@@ -286,6 +286,14 @@ const fullscreenBtn = document.getElementById("fullscreenBtn");
 const backBtn = document.getElementById("backBtn");
 
 let inGame = false; // ✅ STATE FLAG
+// HARD BLOCK ESC WHILE IN GAME
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && inGame) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }
+}, true); // <-- capture phase is REQUIRED
 
 /* ===============================
    OPEN GAME IN POPUP
