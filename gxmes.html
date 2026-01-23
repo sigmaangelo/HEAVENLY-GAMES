@@ -283,49 +283,88 @@ h1 { font-size:2.5rem; color:#00ffc8; text-shadow:0 0 10px #00ffc8; }
 const overlay = document.getElementById("gameOverlay");
 const iframe = document.getElementById("gameFrame");
 const fullscreenBtn = document.getElementById("fullscreenBtn");
+const backBtn = document.getElementById("backBtn");
 
-/* Open game */
+let inGame = false; // ✅ STATE FLAG
+
+/* ===============================
+   OPEN GAME IN POPUP
+================================ */
 document.querySelectorAll(".game-card").forEach(card => {
     card.addEventListener("click", () => {
         iframe.src = card.dataset.url;
         overlay.style.display = "flex";
         fullscreenBtn.style.display = "inline-block";
+        inGame = true; // ✅ enable panic key
     });
 });
 
-/* Back button */
-document.getElementById("backBtn").onclick = () => {
+/* ===============================
+   BACK BUTTON
+================================ */
+backBtn.onclick = () => {
     iframe.src = "";
     overlay.style.display = "none";
+    inGame = false; // ❌ disable panic key
 };
 
-/* Fullscreen (overlay, not iframe) */
+/* ===============================
+   FULLSCREEN BUTTON
+================================ */
 fullscreenBtn.onclick = () => {
-    if (overlay.requestFullscreen) overlay.requestFullscreen();
+    if (iframe.requestFullscreen) iframe.requestFullscreen();
+    else if (iframe.webkitRequestFullscreen) iframe.webkitRequestFullscreen();
+    else if (iframe.msRequestFullscreen) iframe.msRequestFullscreen();
 };
 
-/* Hide fullscreen button while fullscreen */
-document.addEventListener("fullscreenchange", () => {
-    fullscreenBtn.style.display = document.fullscreenElement ? "none" : "inline-block";
-});
+/* ===============================
+   PANIC KEY — ONLY IN GAME MODE
+================================ */
+document.addEventListener("keydown", (e) => {
+    if (e.key !== "`") return;   // only backtick
+    if (!inGame) return;         // 🚫 ignore unless in popup
 
-/* ` key = exit fullscreen + close game */
-document.addEventListener("keydown", e => {
-    if (e.key !== "`") return;
-    if (overlay.style.display !== "flex") return;
+    // Exit fullscreen if active
+    if (document.fullscreenElement) {
+        document.exitFullscreen();
+    }
 
-    if (document.fullscreenElement) document.exitFullscreen();
     iframe.src = "";
     overlay.style.display = "none";
+    inGame = false;
 });
 
-/* Search */
-document.getElementById("searchBar").addEventListener("input", function () {
-    const v = this.value.toLowerCase();
-    document.querySelectorAll(".game-card").forEach(g => {
-        g.style.display = g.textContent.toLowerCase().includes(v) ? "block" : "none";
+/* ===============================
+   SEARCH FILTER
+================================ */
+const searchInput = document.getElementById("searchBar");
+searchInput.addEventListener("keyup", function () {
+    const value = this.value.toLowerCase();
+    document.querySelectorAll(".game-card").forEach(game => {
+        game.style.display = game.textContent.toLowerCase().includes(value)
+            ? "block"
+            : "none";
     });
 });
+
+/* ===============================
+   SNOW EFFECT
+================================ */
+const snow = document.createElement("div");
+snow.className = "snow";
+
+function makeSnowflake() {
+    const dot = document.createElement("span");
+    dot.style.left = Math.random() * 100 + "vw";
+    dot.style.width = dot.style.height = 2 + Math.random() * 6 + "px";
+    dot.style.opacity = 0.3 + Math.random() * 0.7;
+    dot.style.animationDuration = 3 + Math.random() * 5 + "s";
+    snow.appendChild(dot);
+    setTimeout(makeSnowflake, 100);
+}
+
+makeSnowflake();
+document.body.appendChild(snow);
 </script>
 
 </body>
