@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8" /> 
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cloaked Entry</title>
 
 <style>
 html, body {
@@ -14,6 +15,7 @@ html, body {
   font-family: Arial, sans-serif;
   overflow: hidden;
 }
+
 #cloakBtn {
   padding: 20px;
   font-size: 1.5em;
@@ -89,10 +91,12 @@ const enterBtn = document.getElementById("enterBtn");
 const frame = document.getElementById("homeFrame");
 const msg = document.getElementById("msg");
 
-/* ===== FULLSCREEN ENTRY ===== */
+/* ===== FULLSCREEN ENFORCEMENT ===== */
 async function forceFullscreen() {
   if (!document.fullscreenElement) {
-    try { await document.documentElement.requestFullscreen(); } catch {}
+    try {
+      await document.documentElement.requestFullscreen();
+    } catch {}
   }
 }
 
@@ -117,36 +121,38 @@ enterBtn.onclick = async () => {
   }
 
   passwordBox.style.display = "none";
-  frame.src = "/home.html";
+  frame.src = "/home.html"; // default page after login
   frame.style.display = "block";
 };
 
-/* ========= PAGE-LOCAL PANIC MODE ========= */
-(() => {
-  const PANIC_PAGES = ["/home.html", "/chat.html"]; // only these pages panic
+/* ===== PAGE-SPECIFIC PANIC MODE ===== */
+const PANIC_PAGES = ["/home.html", "/chat.html"]; // pages that trigger panic
 
-  function isPanicPage() {
-    // strip origin from iframe src
-    return PANIC_PAGES.includes(frame.src.replace(window.location.origin, ""));
+function isPanicPage() {
+  try {
+    const iframePath = new URL(frame.src, window.location.origin).pathname;
+    return PANIC_PAGES.includes(iframePath);
+  } catch {
+    return false;
   }
+}
 
-  // ESC key panic
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && isPanicPage()) {
-      window.location.replace("about:blank");
-    }
-  });
+// ESC key panic
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && isPanicPage()) {
+    window.location.replace("about:blank");
+  }
+});
 
-  // Exit fullscreen panic
-  document.addEventListener("fullscreenchange", () => {
-    if (!document.fullscreenElement && isPanicPage()) {
-      window.location.replace("about:blank");
-    }
-  });
+// Fullscreen exit panic
+document.addEventListener("fullscreenchange", () => {
+  if (!document.fullscreenElement && isPanicPage()) {
+    window.location.replace("about:blank");
+  }
+});
 
-  // Keep fullscreen enforced on index.html
-  setInterval(forceFullscreen, 1000);
-})();
+// Enforce fullscreen continuously
+setInterval(forceFullscreen, 1000);
 </script>
 
 </body>
