@@ -167,8 +167,19 @@ footer { margin:30px 0; opacity:0.6; font-size:0.9rem; }
 <header>
     <h1>🎄 Christmas Update! Heavenly Games!</h1>
     <div id="homeBtn" class="ornament-btn" style="background: black; top: 13%; left: 15.5%;">Home</div>
+ <script>
+    const iframe = document.getElementById('iframeContainer');
 
+    function loadInIframe(url) {
+      iframe.src = url;
+      iframe.style.display = 'block';
+    }
+
+    // Attach buttons to iframe loading
+    document.getElementById('homeBtn').addEventListener('click', () => loadInIframe('home.html'));
     <input type="text" id="searchBar" placeholder="Search games...">
+        </script>
+    
 </header>
 
 <div id="santa"></div>
