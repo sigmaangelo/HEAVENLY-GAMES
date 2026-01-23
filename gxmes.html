@@ -340,10 +340,10 @@ document.getElementById("backBtn").onclick = () => {
 
 // Fullscreen button
 document.getElementById("fullscreenBtn").onclick = () => {
-    const iframe = document.getElementById("gameFrame");
-    if (iframe.requestFullscreen) iframe.requestFullscreen();
-    else if (iframe.webkitRequestFullscreen) iframe.webkitRequestFullscreen();
-    else if (iframe.msRequestFullscreen) iframe.msRequestFullscreen();
+    const overlay = document.getElementById("gameOverlay");
+    if (overlay.requestFullscreen) overlay.requestFullscreen();
+    else if (overlay.webkitRequestFullscreen) overlay.webkitRequestFullscreen();
+    else if (overlay.msRequestFullscreen) overlay.msRequestFullscreen();
 };
 
 // Search filter
