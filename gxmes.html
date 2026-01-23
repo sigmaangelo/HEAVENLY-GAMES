@@ -16,65 +16,28 @@ body {
     overflow-x:hidden;
 }
 
-button, a.game-btn {
-    background: #1a1f29;
-    color: #dddddd;
-    border: 2px solid #5C4033;
-    padding: 12px 20px;
-    border-radius: 10px;
-    display: inline-block;
-    margin: 8px;
-    font-size: 18px;
-    text-decoration: none;
-    cursor: pointer;
-    transition: 0.25s;
-    width: 640px;
-    text-shadow: 0.5px 0.5px orange;
-    text-align: center;
-}
-
-button:hover, a.game-btn:hover {
-    background: #c98c53;
-    color: black;
-    text-shadow: 2px 2px orange;
-    box-shadow: 0 0 28px #FF5C00;
-    border: 2px solid rgba(0,0,0, 0.75);
-    transform: scale(1.05);
-}
-
 header { padding:40px 20px 10px; }
 
 h1 { font-size:2.5rem; color:#00ffc8; text-shadow:0 0 10px #00ffc8; }
 
 #searchBar {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(0, 255, 200, 0.3);
-    outline: none;
-    color: #00ffc8;
-    font-size: 1.1rem;
-    padding: 14px 20px;
-    border-radius: 12px;
-    width: min(320px, 85%);
-    margin: 20px auto;
-    text-align: center;
-    transition: 0.3s ease;
-    box-shadow: 0 0 10px rgba(0, 255, 200, 0.15);
-    display: block;
-}
-
-#searchBar::placeholder { color: rgba(0, 255, 200, 0.6); }
-
-#searchBar:hover, #searchBar:focus {
-    transform: scale(1.05);
-    border: 1px solid #00ffc8;
-    box-shadow:0 0 10px #00ffc8, 0 0 20px rgba(0, 255, 200, 0.5);
+    background: rgba(255,255,255,0.05);
+    border:1px solid rgba(0,255,200,0.3);
+    color:#00ffc8;
+    font-size:1.1rem;
+    padding:14px 20px;
+    border-radius:12px;
+    width:min(320px,85%);
+    margin:20px auto;
+    text-align:center;
+    display:block;
 }
 
 .game-grid {
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-    gap:80px;
-    padding:20px;
+    gap:60px;
+    padding:30px;
 }
 
 .game-card {
@@ -86,78 +49,43 @@ h1 { font-size:2.5rem; color:#00ffc8; text-shadow:0 0 10px #00ffc8; }
     transition:0.3s;
     text-decoration:none;
     color:white;
-    min-width:200px;
 }
 
-.game-card:hover { transform:translateY(-5px); box-shadow:0 0 15px rgba(0,255,200,0.3); }
-
-footer { margin:30px 0; opacity:0.6; font-size:0.9rem; }
-
-.snow { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:10; }
-.snow span {
-    position:absolute;
-    top:-10px;
-    width:5px; height:5px;
-    background:white;
-    border-radius:50%;
-    opacity:0.7;
-    animation-name:fall;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
+.game-card:hover {
+    transform:translateY(-5px);
+    box-shadow:0 0 15px rgba(0,255,200,0.4);
 }
 
-@keyframes fall {
-    0% { transform: translateY(-10px) translateX(0); }
-    100% { transform: translateY(110vh) translateX(20px); }
-}
-
-#santa { position:absolute; width:260px; top:40px; left:-400px; z-index:20; }
-
-/* Overlay styles */
 #gameOverlay {
-    position: fixed;
-    top:0; left:0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0,0,0,0.95);
-    display: none;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    z-index: 999;
+    position:fixed;
+    inset:0;
+    background:black;
+    display:none;
+    flex-direction:column;
+    z-index:9999;
 }
 
 #gameControls {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 15px 30px;
-    background: rgba(0,0,0,0.7);
+    display:flex;
+    justify-content:space-between;
+    padding:12px 20px;
+    background:#000;
 }
 
 #gameControls button {
-    font-size: 18px;
-    padding: 10px 20px;
-    border-radius: 8px;
-    border: 2px solid #00ffc8;
-    background: #1a1f29;
-    color: #00ffc8;
-    cursor: pointer;
-    transition: 0.25s;
-}
-
-#gameControls button:hover {
-    background: #00ffc8;
-    color: black;
-    transform: scale(1.05);
+    font-size:16px;
+    padding:10px 18px;
+    border-radius:8px;
+    border:2px solid #00ffc8;
+    background:#111;
+    color:#00ffc8;
+    cursor:pointer;
 }
 
 #gameFrame {
-    width: 90%;
-    height: calc(100% - 60px);
-    border: none;
-    margin-top: 10px;
-    border-radius: 8px;
+    flex:1;
+    width:100%;
+    border:none;
 }
 </style>
 </head>
@@ -167,13 +95,9 @@ footer { margin:30px 0; opacity:0.6; font-size:0.9rem; }
 <header>
     <h1>SNOWY UPDATE! Heavenly Games!</h1>
     <br>
-  <h2> PRESS THE ` KEY TO EXIT THE GAME YOU'RE PLAYING</h2>
-<br>
+    <h2>PRESS THE <code>`</code> KEY TO EXIT A GAME</h2>
     <input type="text" id="searchBar" placeholder="Search games...">
-    
 </header>
-
-<div id="santa"></div>
 
 <section class="game-grid">
     <a class="game-card" data-url="newgames/candycrush/">Candy Crush</a>
@@ -347,88 +271,61 @@ footer { margin:30px 0; opacity:0.6; font-size:0.9rem; }
 </section>
 
 
-<!-- Overlay for in-page game popup -->
 <div id="gameOverlay">
     <div id="gameControls">
         <button id="backBtn">⬅ Back</button>
         <button id="fullscreenBtn">⛶ Fullscreen</button>
     </div>
-    <iframe id="gameFrame" src=""></iframe>
+    <iframe id="gameFrame"></iframe>
 </div>
 
-<footer>© 2026 Snowy Update — All Rights Reserved</footer>
-
 <script>
-// Open game in overlay
+const overlay = document.getElementById("gameOverlay");
+const iframe = document.getElementById("gameFrame");
+const fullscreenBtn = document.getElementById("fullscreenBtn");
+
+/* Open game */
 document.querySelectorAll(".game-card").forEach(card => {
     card.addEventListener("click", () => {
-        const overlay = document.getElementById("gameOverlay");
-        const iframe = document.getElementById("gameFrame");
         iframe.src = card.dataset.url;
         overlay.style.display = "flex";
+        fullscreenBtn.style.display = "inline-block";
     });
 });
 
-// Back button
+/* Back button */
 document.getElementById("backBtn").onclick = () => {
-    const overlay = document.getElementById("gameOverlay");
-    const iframe = document.getElementById("gameFrame");
     iframe.src = "";
     overlay.style.display = "none";
 };
 
-// Fullscreen button
-document.getElementById("fullscreenBtn").onclick = () => {
-    const iframe = document.getElementById("gameFrame");
-    if (iframe.requestFullscreen) iframe.requestFullscreen();
-    else if (iframe.webkitRequestFullscreen) iframe.webkitRequestFullscreen();
-    else if (iframe.msRequestFullscreen) iframe.msRequestFullscreen();
+/* Fullscreen (overlay, not iframe) */
+fullscreenBtn.onclick = () => {
+    if (overlay.requestFullscreen) overlay.requestFullscreen();
 };
 
-// Press ` key to exit fullscreen and go back
-document.addEventListener("keydown", (e) => {
-    if (e.key === "`") { // the backtick key
-        const overlay = document.getElementById("gameOverlay");
-        const iframe = document.getElementById("gameFrame");
-
-        // Exit fullscreen if active
-        if (document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
-            if (document.exitFullscreen) document.exitFullscreen();
-            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-            else if (document.msExitFullscreen) document.msExitFullscreen();
-        }
-
-        // Hide overlay and reset iframe
-        iframe.src = "";
-        overlay.style.display = "none";
-    }
+/* Hide fullscreen button while fullscreen */
+document.addEventListener("fullscreenchange", () => {
+    fullscreenBtn.style.display = document.fullscreenElement ? "none" : "inline-block";
 });
 
+/* ` key = exit fullscreen + close game */
+document.addEventListener("keydown", e => {
+    if (e.key !== "`") return;
+    if (overlay.style.display !== "flex") return;
 
-// Search filter
-const searchInput = document.getElementById("searchBar");
-searchInput.addEventListener("keyup", function () {
-    const value = this.value.toLowerCase();
-    const games = document.querySelectorAll(".game-card");
-    games.forEach(game => {
-        game.style.display = game.textContent.toLowerCase().includes(value) ? "block" : "none";
+    if (document.fullscreenElement) document.exitFullscreen();
+    iframe.src = "";
+    overlay.style.display = "none";
+});
+
+/* Search */
+document.getElementById("searchBar").addEventListener("input", function () {
+    const v = this.value.toLowerCase();
+    document.querySelectorAll(".game-card").forEach(g => {
+        g.style.display = g.textContent.toLowerCase().includes(v) ? "block" : "none";
     });
 });
-
-// Snow effect
-const snow = document.createElement("div");
-snow.className = "snow";
-function makeSnowflake() {
-    const dot = document.createElement("span");
-    dot.style.left = Math.random()*100 + "vw";
-    dot.style.width = dot.style.height = 2 + Math.random()*6 + "px";
-    dot.style.opacity = 0.3 + Math.random()*0.7;
-    dot.style.animationDuration = 3 + Math.random()*5 + "s";
-    snow.appendChild(dot);
-    setTimeout(makeSnowflake, 100);
-}
-makeSnowflake();
-document.body.appendChild(snow);
 </script>
 
 </body>
