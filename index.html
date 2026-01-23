@@ -118,13 +118,26 @@ enterBtn.onclick = async () => {
 };
 
 /* ===== ESC PANIC ===== */
+function panicAllowed() {
+  if (!frame.src) return true;
+
+  const url = frame.src;
+
+  // Panic only on these pages
+  return (
+    url.includes("/home.html") ||
+    url.includes("/chat.html")
+  );
+}
+
 function handleFullscreenChange() {
   const fs =
     document.fullscreenElement ||
     document.webkitFullscreenElement ||
     document.msFullscreenElement;
 
-  if (!fs) {
+  // If fullscreen exited AND panic is allowed
+  if (!fs && panicAllowed()) {
     window.location.href = "about:blank";
   }
 }
@@ -132,6 +145,7 @@ function handleFullscreenChange() {
 document.addEventListener("fullscreenchange", handleFullscreenChange);
 document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
 document.addEventListener("MSFullscreenChange", handleFullscreenChange);
+
 </script>
 
 </body>
