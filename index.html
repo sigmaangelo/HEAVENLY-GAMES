@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" /> 
+<meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Cloaked Entry</title>
 
@@ -76,84 +76,4 @@ iframe {
 <button id="cloakBtn">CLOAK</button>
 
 <div id="passwordBox">
-  <h2>Enter Password</h2>
-  <input id="pass" type="password" />
-  <button class="submitBtn" id="enterBtn">Enter</button>
-  <p id="msg"></p>
-</div>
-
-<iframe id="homeFrame"></iframe>
-
-<script>
-const cloakBtn = document.getElementById("cloakBtn");
-const passwordBox = document.getElementById("passwordBox");
-const enterBtn = document.getElementById("enterBtn");
-const frame = document.getElementById("homeFrame");
-const msg = document.getElementById("msg");
-
-/* ===== FULLSCREEN ENFORCEMENT ===== */
-async function forceFullscreen() {
-  if (!document.fullscreenElement) {
-    try {
-      await document.documentElement.requestFullscreen();
-    } catch {}
-  }
-}
-
-cloakBtn.onclick = async () => {
-  await forceFullscreen();
-  cloakBtn.style.display = "none";
-  passwordBox.style.display = "block";
-};
-
-/* ===== PASSWORD AUTH ===== */
-enterBtn.onclick = async () => {
-  const pass = document.getElementById("pass").value;
-
-  const res = await fetch("/login", {
-    method: "POST",
-    body: new URLSearchParams({ password: pass }),
-  });
-
-  if (!res.ok) {
-    msg.innerText = "Wrong password";
-    return;
-  }
-
-  passwordBox.style.display = "none";
-  frame.src = "/home.html"; // default page after login
-  frame.style.display = "block";
-};
-
-/* ===== PAGE-SPECIFIC PANIC MODE ===== */
-const PANIC_PAGES = ["/home.html", "/chat.html"]; // pages that trigger panic
-
-function isPanicPage() {
-  try {
-    const iframePath = new URL(frame.src, window.location.origin).pathname;
-    return PANIC_PAGES.includes(iframePath);
-  } catch {
-    return false;
-  }
-}
-
-// ESC key panic
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && isPanicPage()) {
-    window.location.replace("about:blank");
-  }
-});
-
-// Fullscreen exit panic
-document.addEventListener("fullscreenchange", () => {
-  if (!document.fullscreenElement && isPanicPage()) {
-    window.location.replace("about:blank");
-  }
-});
-
-// Enforce fullscreen continuously
-setInterval(forceFullscreen, 1000);
-</script>
-
-</body>
-</html>
+  <h2>Enter
