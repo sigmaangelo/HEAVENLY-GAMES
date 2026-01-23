@@ -93,9 +93,7 @@ const msg = document.getElementById("msg");
 /* ===== FULLSCREEN ENTRY ===== */
 async function forceFullscreen() {
   if (!document.fullscreenElement) {
-    try {
-      await document.documentElement.requestFullscreen();
-    } catch {}
+    try { await document.documentElement.requestFullscreen(); } catch {}
   }
 }
 
@@ -126,21 +124,28 @@ enterBtn.onclick = async () => {
 
 /* ========= PAGE-LOCAL PANIC MODE ========= */
 (() => {
-  // ESC panic
+  const PANIC_PAGES = ["/home.html", "/chat.html"]; // only these pages panic
+
+  function isPanicPage() {
+    // strip origin from iframe src
+    return PANIC_PAGES.includes(frame.src.replace(window.location.origin, ""));
+  }
+
+  // ESC key panic
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
+    if (e.key === "Escape" && isPanicPage()) {
       window.location.replace("about:blank");
     }
   });
 
   // Exit fullscreen panic
   document.addEventListener("fullscreenchange", () => {
-    if (!document.fullscreenElement) {
+    if (!document.fullscreenElement && isPanicPage()) {
       window.location.replace("about:blank");
     }
   });
 
-  // Enforce fullscreen (index.html ONLY)
+  // Keep fullscreen enforced on index.html
   setInterval(forceFullscreen, 1000);
 })();
 </script>
