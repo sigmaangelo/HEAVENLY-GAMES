@@ -4,39 +4,350 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Christmas Game Hub</title>
+
 <style>
 * { margin:0; padding:0; box-sizing:border-box; font-family:sans-serif; }
-body { height:100vh; background: linear-gradient(135deg, #0a0f1f, #08203e); color:white; text-align:center; overflow-x:hidden; }
-button, a.game-btn { background: #1a1f29; color: #dddddd; border: 2px solid #5C4033; padding: 12px 20px; border-radius: 10px; display: inline-block; margin: 8px; font-size: 18px; text-decoration: none; cursor: pointer; transition: 0.25s; width: 640px; text-shadow: 0.5px 0.5px orange; text-align: center; }
-button:hover, a.game-btn:hover { background: #c98c53; color: black; text-shadow: 2px 2px orange; box-shadow: 0 0 28px #FF5C00; border: 2px solid rgba(0,0,0, 0.75); transform: scale(1.05); }
+
+body {
+    height:100vh;
+    background: linear-gradient(135deg, #0a0f1f, #08203e);
+    color:white;
+    text-align:center;
+    overflow-x:hidden;
+}
+
+button, a.game-btn {
+    background: #1a1f29;
+    color: #dddddd;
+    border: 2px solid #5C4033;
+    padding: 12px 20px;
+    border-radius: 10px;
+    display: inline-block;
+    margin: 8px;
+    font-size: 18px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.25s;
+    width: 640px;
+    text-shadow: 0.5px 0.5px orange;
+    text-align: center;
+}
+
+button:hover, a.game-btn:hover {
+    background: #c98c53;
+    color: black;
+    text-shadow: 2px 2px orange;
+    box-shadow: 0 0 28px #FF5C00;
+    border: 2px solid rgba(0,0,0, 0.75);
+    transform: scale(1.05);
+}
+
 header { padding:40px 20px 10px; }
+
 h1 { font-size:2.5rem; color:#00ffc8; text-shadow:0 0 10px #00ffc8; }
-#searchBar { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(0, 255, 200, 0.3); outline: none; color: #00ffc8; font-size: 1.1rem; padding: 14px 20px; border-radius: 12px; width: min(320px, 85%); margin: 20px auto; text-align: center; transition: 0.3s ease; box-shadow: 0 0 10px rgba(0, 255, 200, 0.15); display: block; }
+
+#searchBar {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(0, 255, 200, 0.3);
+    outline: none;
+    color: #00ffc8;
+    font-size: 1.1rem;
+    padding: 14px 20px;
+    border-radius: 12px;
+    width: min(320px, 85%);
+    margin: 20px auto;
+    text-align: center;
+    transition: 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 255, 200, 0.15);
+    display: block;
+}
+
 #searchBar::placeholder { color: rgba(0, 255, 200, 0.6); }
-#searchBar:hover, #searchBar:focus { transform: scale(1.05); border: 1px solid #00ffc8; box-shadow:0 0 10px #00ffc8, 0 0 20px rgba(0, 255, 200, 0.5); }
-.game-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:80px; padding:20px; }
-.game-card { background: rgba(255,255,255,0.05); border:1px solid rgba(0,255,200,0.2); border-radius:10px; padding:20px; cursor:pointer; transition:0.3s; text-decoration:none; color:white; min-width:200px; }
+
+#searchBar:hover, #searchBar:focus {
+    transform: scale(1.05);
+    border: 1px solid #00ffc8;
+    box-shadow:0 0 10px #00ffc8, 0 0 20px rgba(0, 255, 200, 0.5);
+}
+
+.game-grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:80px;
+    padding:20px;
+}
+
+.game-card {
+    background: rgba(255,255,255,0.05);
+    border:1px solid rgba(0,255,200,0.2);
+    border-radius:10px;
+    padding:20px;
+    cursor:pointer;
+    transition:0.3s;
+    text-decoration:none;
+    color:white;
+    min-width:200px;
+}
+
 .game-card:hover { transform:translateY(-5px); box-shadow:0 0 15px rgba(0,255,200,0.3); }
+
 footer { margin:30px 0; opacity:0.6; font-size:0.9rem; }
-#gameOverlay { position: fixed; top:0; left:0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.95); display: none; flex-direction: column; justify-content: flex-start; align-items: center; z-index: 999; }
-#gameControls { width: 100%; display: flex; justify-content: space-between; padding: 15px 30px; background: rgba(0,0,0,0.7); }
-#gameControls button { font-size: 18px; padding: 10px 20px; border-radius: 8px; border: 2px solid #00ffc8; background: #1a1f29; color: #00ffc8; cursor: pointer; transition: 0.25s; }
-#gameControls button:hover { background: #00ffc8; color: black; transform: scale(1.05); }
-#gameFrame { width: 90%; height: calc(100% - 60px); border: none; margin-top: 10px; border-radius: 8px; }
+
+.snow { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:10; }
+.snow span {
+    position:absolute;
+    top:-10px;
+    width:5px; height:5px;
+    background:white;
+    border-radius:50%;
+    opacity:0.7;
+    animation-name:fall;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+@keyframes fall {
+    0% { transform: translateY(-10px) translateX(0); }
+    100% { transform: translateY(110vh) translateX(20px); }
+}
+
+#santa { position:absolute; width:260px; top:40px; left:-400px; z-index:20; }
+
+/* Overlay styles */
+#gameOverlay {
+    position: fixed;
+    top:0; left:0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.95);
+    display: none;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    z-index: 999;
+}
+
+#gameControls {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 30px;
+    background: rgba(0,0,0,0.7);
+}
+
+#gameControls button {
+    font-size: 18px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 2px solid #00ffc8;
+    background: #1a1f29;
+    color: #00ffc8;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+#gameControls button:hover {
+    background: #00ffc8;
+    color: black;
+    transform: scale(1.05);
+}
+
+#gameFrame {
+    width: 90%;
+    height: calc(100% - 60px);
+    border: none;
+    margin-top: 10px;
+    border-radius: 8px;
+}
 </style>
 </head>
+
 <body>
 
 <header>
-<h1>SNOWY UPDATE! Heavenly Games!</h1>
-<input type="text" id="searchBar" placeholder="Search games...">
+    <h1>SNOWY UPDATE! Heavenly Games!</h1>
+    <br>
+  <h2> PRESS THE ` KEY TO EXIT THE GAME YOU'RE PLAYING</h2>
+<br>
+    <input type="text" id="searchBar" placeholder="Search games...">
+    
 </header>
 
+<div id="santa"></div>
+
 <section class="game-grid">
+    <a class="game-card" data-url="newgames/candycrush/">Candy Crush</a>
+    <a class="game-card" data-url="1v1lol/">1v1lol</a>
+    <a class="game-card" data-url="tap/">Tap</a>
+    <a class="game-card" data-url="newgames/stackCode/">Stack</a>
+    <a class="game-card" data-url="newgames/2048code/">2048</a>
+    <a class="game-card" data-url="newgames/fluidsim/">Fluidsim</a>
+    <a class="game-card" data-url="https://heavenlygames5.deno.dev/html/Drive%20Mad%20200%20Levels/">Drive Mad</a>
+    <a class="game-card" data-url="newgames/spacebarclicker/">Spacebar Clicker</a>
+    <a class="game-card" data-url="HexGL/">HexGL</a>
+    <a class="game-card" data-url="OfflineParadise/">Offline Paradise</a>
+    <a class="game-card" data-url="Stickman-Survival/">Stickman Survival</a>
+    <a class="game-card" data-url="angry-birds/">Angry Birds</a>
+    <a class="game-card" data-url="backflip-dive-3d/">Backflip Dive</a>
+    <a class="game-card" data-url="backrooms/">Backrooms</a>
+    <a class="game-card" data-url="baldis-basics/">Baldi's Basics</a>
+    <a class="game-card" data-url="bitlife/">Bitlife</a>
+    <a class="game-card" data-url="bloonstd/">Bloonstd</a>
+    <a class="game-card" data-url="bloxors/">Bloxors</a>
+    <a class="game-card" data-url="breakout/">Breakout</a>
+    <a class="game-card" data-url="cars-simulator/">Cars Simulator</a>
+    <a class="game-card" data-url="chromedino/">Chrome Dino</a>
+    <a class="game-card" data-url="clean-up-io/">Clean Up</a>
+    <a class="game-card" data-url="core-ball/">Core Ball</a>
+    <a class="game-card" data-url="crossyroad/">Crossy Road</a>
+    <a class="game-card" data-url="cubefield/">Cubefield</a>
+    <a class="game-card" data-url="death-run-3d/">Death Run</a>
+    <a class="game-card" data-url="draw-the-hill/">Draw The Hill</a>
+    <a class="game-card" data-url="duck-life-treasurehunt/">Duck Life</a>
+    <a class="game-card" data-url="edge-surf/">Edge Surf</a>
+    <a class="game-card" data-url="emulator-js/">Emulator JS</a>
+    <a class="game-card" data-url="evilglitch/">Evil Glitch</a>
+    <a class="game-card" data-url="factoryballsforever/">Factory Balls</a>
+    <a class="game-card" data-url="flappy-2048/">Flappy 2048</a>
+    <a class="game-card" data-url="flappybird/">Flappy Bird</a>
+    <a class="game-card" data-url="geodash-2/">Geodash</a>
+    <a class="game-card" data-url="geometry_jump_sketchy/">Geometry Jump</a>
+    <a class="game-card" data-url="getaway-shootout/">Getaway Shootout</a>
+    <a class="game-card" data-url="golf/">Golf</a>
+    <a class="game-card" data-url="gunspin/">Gunspin</a>
+    <a class="game-card" data-url="helicopter/">Helicopter</a>
+    <a class="game-card" data-url="jetpack/">Jetpack</a>
+    <a class="game-card" data-url="justfall/">Just Fall</a>
+    <a class="game-card" data-url="learntofly2/">Learn To Fly</a>
+    <a class="game-card" data-url="line-rider/">Line Rider</a>
+    <a class="game-card" data-url="moto-x3m-2/">Moto X3M</a>
+    <a class="game-card" data-url="one-screen-run-2/">One Screen 2</a>
+    <a class="game-card" data-url="one-screen-run/">One Screen</a>
+    <a class="game-card" data-url="pacman-fps/">Pacman FPS</a>
+    <a class="game-card" data-url="pacman/">Pacman</a>
+    <a class="game-card" data-url="paperio2/">Paperio 2</a>
+    <a class="game-card" data-url="papery-planes/">Papery Planes</a>
+    <a class="game-card" data-url="rolly-vortex/">Rolly Vortex</a>
+    <a class="game-card" data-url="rooftop-snipers/">Rooftop Snipers</a>
+    <a class="game-card" data-url="run3/">Run3</a>
+    <a class="game-card" data-url="sand-game/">Sand Game</a>
+    <a class="game-card" data-url="scrapmetal/">Scrapmetal</a>
+    <a class="game-card" data-url="short-life-2/">Short Life</a>
+    <a class="game-card" data-url="smashkarts/">Smash Karts</a>
+    <a class="game-card" data-url="soundboard/">Soundboard</a>
+    <a class="game-card" data-url="spacehuggers/">Spacehuggers</a>
+    <a class="game-card" data-url="stick-archers-battle/">Stick Archers</a>
+    <a class="game-card" data-url="stickclimb/">Stick Climb</a>
+    <a class="game-card" data-url="stickwar/">Stick War</a>
+    <a class="game-card" data-url="stormthehouse2/">Storm House</a>
+    <a class="game-card" data-url="superhot/">Superhot</a>
+    <a class="game-card" data-url="swerve/">Swerve</a>
+    <a class="game-card" data-url="temple-run-2/">Temple Run</a>
+    <a class="game-card" data-url="time-shooter-3/">Time Shooter</a>
+    <a class="game-card" data-url="tunnel-rush/">Tunnel Rush</a>
+    <a class="game-card" data-url="vex3/">Vex3</a>
+    <a class="game-card" data-url="vex4/">Vex4</a>
+    <a class="game-card" data-url="vex5/">Vex5</a>
+    <a class="game-card" data-url="waterworks/">Waterworks</a>
+    <a class="game-card" data-url="worlds-hardest-game-2/">World's Hardest Game 2</a>
+    <a class="game-card" data-url="zombocalypse/">Zombocalypse</a>
+    <a class="game-card" data-url="newgames/paperio3d/">Paperio3D</a>
+    <a class="game-card" data-url="newgames/run/">Run</a>
+    <a class="game-card" data-url="https://valsamisphysics.com/sidescroller/index.html">Ngon</a>
+    <a class="game-card" data-url="https://www.stat2games.sites.grinnell.edu/games/raceradvanced22.html">Racer</a>
+    <a class="game-card" data-url="https://pointerpointer.com/">Pointer Game</a>
+    <a class="game-card" data-url="https://kids.hidabroot.org/Games/Rollingball/">Slope 2</a>
+    <a class="game-card" data-url="https://eurascension.s3.us-east-2.amazonaws.com/index.html">Aircraft Sim</a>
+    <a class="game-card" data-url="https://copilot.lindberghschools.ws/projectstorage/CopilotTheVG/index.html">Co Pilot</a>
+    <a class="game-card" data-url="https://home.adelphi.edu/~ju21229/assets/terrain_html/Terrain.html">Terrain</a>
+    <a class="game-card" data-url="https://www.drivingskillsforlife.com/media/games/vr2pc/sub/roundabout/index.html">Driving Sim</a>
+    <a class="game-card" data-url="https://personal.denison.edu/~lalla/314f20/juntao/index.html">3D Ball Roll</a>
+    <a class="game-card" data-url="https://andregaertner.com/game/">Survival Shooting</a>
+    <a class="game-card" data-url="https://diguifi-games.s3-us-west-2.amazonaws.com/FPS_Survival_build/index.html">The Wanderer</a>
+    <a class="game-card" data-url="https://kids.hidabroot.org/Games/BlastyShooting/">Blasty Shooting</a>
+    <a class="game-card" data-url="https://williamhoza.com/text/?t=wow%20playing%20games?">Particle Sim</a>
+    <a class="game-card" data-url="https://www.stat2games.sites.grinnell.edu/games/racekart.htm">Race Kart</a>
+    <a class="game-card" data-url="https://thegamesq2.deno.dev/slope/slope.html">Hole.io</a>
+    <a class="game-card" data-url="https://heavenlygames5.deno.dev/html/City%20Car%20Driving%20Stunt%20Master/">Stunt Driving</a>
+    <a class="game-card" data-url="https://heavenlygames5.deno.dev/html/Steal%20a%20Brainrot/">Steal a Brainrot</a>
+    <a class="game-card" data-url="https://heavenlygames5.deno.dev/html/clash%20royale/">Clash Royale</a>
+    <a class="game-card" data-url="https://sigma2.wasmer.app/html/Scary%20Teacher%203D/">Scary Teacher 3D</a>
+    <a class="game-card" data-url="https://a6936-19417927.cluster7.canvas-user-content.com/courses/6936~1010708/files/6936~19417927/course%20files/index.html%20tre?download=1&inline=1">Retro Bowl</a>
+    <a class="game-card" data-url="https://www.stat2games.sites.grinnell.edu/games/tigersampling.html">Tiger Sniper</a>
+    <a class="game-card" data-url="https://a6936-20267301.cluster7.canvas-user-content.com/courses/6936~1014013/files/6936~20267301/course%20files/baldi%20basics/index.html?download=1&inline=1">Baldi's Basics</a>
+    <a class="game-card" data-url="https://a6936-20350029.cluster7.canvas-user-content.com/courses/6936~1014013/files/6936~20350029/course%20files/index.html?download=1&inline=1">2 Player Slope</a>
+    <a class="game-card" data-url="https://shrikalyanika.org/play/?id=184">Cookie Clicker (Alt)</a>
+    <a class="game-card" data-url="/CARGAME/">Car Game</a>
+    <a class="game-card" data-url="https://heavenlydog3.deno.dev/html/block%20blast/">Block Blast</a>
+    <a class="game-card" data-url="https://heavenlydog3.deno.dev/html/bottle%20flip/">Bottle Flip</a>
+    <a class="game-card" data-url="https://heavenlydog3.deno.dev/html/footballbros/">Football Bros</a>
+    <a class="game-card" data-url="https://heavenlydog3.deno.dev/html/highway%20bike%20simulator/">Highway Bike Simulator</a>
+    <a class="game-card" data-url="https://heavenlydog3.deno.dev/html/little%20alchemy%202/">Little Alchemy 2</a>
+    <a class="game-card" data-url="https://heavenlydog3.deno.dev/html/new%20polytrack/">Poly Track</a>
+    <a class="game-card" data-url="https://heavenlydog3.deno.dev/html/ovo%203d/">OVO 3D</a>
+    <a class="game-card" data-url="https://heavenlydog3.deno.dev/html/pixel%20gun%20apocalypse%202/">Pixel Gun Apocalypse 2</a>
+    <a class="game-card" data-url="https://heavenlydog3.deno.dev/html/ragdoll%20hit/">Ragdoll Hit</a>
+    <a class="game-card" data-url="https://heavenlydog3.deno.dev/html/rocket%20soccer%20durbey/">Rocket Soccer Derby</a>
+    <a class="game-card" data-url="https://heavenlydog3.deno.dev/html/sandtris/">Sandtris</a>
+    <a class="game-card" data-url="https://heavenlydog3.deno.dev/html/save%20the%20doge/">Save the Doge</a>
+    <a class="game-card" data-url="https://heavenlydog3.deno.dev/html/soccer%20skills%20euro%20cup/">Soccer Skills Euro Cup</a>
+    <a class="game-card" data-url="https://heavenlydog3.deno.dev/html/stick%20duel%20battle/">Stick Duel Battle</a>
+    <a class="game-card" data-url="https://heavenlydog3.deno.dev/html/stick%20fighters/">Stick Fighters</a>
+    <a class="game-card" data-url="https://heavenlydog3.deno.dev/html/stickman%20bike/">Stickman Bike</a>
+    <a class="game-card" data-url="https://heavenlydog3.deno.dev/html/top%20speed%20racing%203d/">Top Speed Racing 3D</a>
+    <a class="game-card" data-url="https://heavenlydog3.deno.dev/html/worlds%20hardest%20game%203/">World's Hardest Game 3</a>
+    <a class="game-card" data-url="https://heavenly2.deno.dev/html/basketbros.io/">basketbros.io</a>
+    <a class="game-card" data-url="https://heavenly2.deno.dev/html/basket%20legend%202020/">basketballlegends.2020</a>
+    <a class="game-card" data-url="https://heavenly2.deno.dev/html/burrito%20bison/">burritobison.io</a>
+    <a class="game-card" data-url="https://heavenly2.deno.dev/html/cannon%20basketball/">cannonbasketball</a>
+    <a class="game-card" data-url="https://heavenly2.deno.dev/html/block%20shooter%20frenzy/">blockshooterfrenzy</a>
+    <a class="game-card" data-url="https://heavenly2.deno.dev/html/ultimate%20offroad%20simulator/">offroadsimulator</a>
+    <a class="game-card" data-url="https://heavenly2.deno.dev/html/pixelshooter/">pixelshooter</a>
+    <a class="game-card" data-url="https://heavenly2.deno.dev/html/superfighters/">superfighters</a>
+    <a class="game-card" data-url="https://heavenly2.deno.dev/html/top%20speed%203d/">topspeed3D</a>
+    <a class="game-card" data-url="https://heavenly2.deno.dev/html/tap%20tap%20shots/">tap-tap-shots</a>
+<!-- <a class="game-card" data-url="https://heavenlyselenite.deno.dev/moto/">motox3m</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/hobo/">hobo</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/1on1soccer/">1on1soccer</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/2drocketleague/">2drocketleague</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/basketbros/">basketbros</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/bit-planes/">bit-planes</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/cluster-rush/">cluster-rush</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/cookieclicker/">cookieclicker</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/drifthunters/">drifthunters</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/flappyplane/">flappyplane</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/gdlite/">gdlite</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/geometryrash/">geometryrash</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/gunmayhem2/">gunmayhem2</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/jetpackjoyride/">jetpackjoyride</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/lazyjump3d/">lazyjump3d</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/motox3m-pool/">motox3m-pool</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/motox3m-spooky/">motox3m-spooky</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/ovo/">ovo</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/retrobowlcollege/">retrobowlcollege</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/rocketleague/">rocketleague</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/ruffle/">ruffle</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/russiancardriver/">russiancardriver</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/slope/">slope</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/slope3/">slope3</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/snowrider3d/">snowrider3d</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/stealingthediamond/">stealingthediamond</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/stickman-hook/">stickman-hook</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/stickmanclimb/">stickmanclimb</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/subway-surfers-ny/">subway-surfers-ny</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/timeshooter1/">timeshooter1</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/timeshooter2/">timeshooter2</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/watermelongame/">watermelongame</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/webretro/">webretro</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/win11/">win11</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/yohoho/">yohoho</a>
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/zombocalypse/">zombocalypse</a> -->
 <a class="game-card" data-url="https://supersoccerl.deno.dev">Super liquid soccer</a>
-    <!-- Add your games here -->
+
 </section>
 
+
+<!-- Overlay for in-page game popup -->
 <div id="gameOverlay">
     <div id="gameControls">
         <button id="backBtn">⬅ Back</button>
@@ -74,35 +385,51 @@ document.getElementById("fullscreenBtn").onclick = () => {
     else if (iframe.msRequestFullscreen) iframe.msRequestFullscreen();
 };
 
-// ESC closes overlay (instead of panic)
+// Press ` key to exit fullscreen and go back
 document.addEventListener("keydown", (e) => {
-    const overlay = document.getElementById("gameOverlay");
-    const iframe = document.getElementById("gameFrame");
-
-    if (e.key === "Escape" && overlay.style.display === "flex") {
-        iframe.src = "";
-        overlay.style.display = "none";
-    }
-});
-
-// Backtick exits fullscreen & overlay
-document.addEventListener("keydown", (e) => {
-    if (e.key === "`") {
+    if (e.key === "`") { // the backtick key
         const overlay = document.getElementById("gameOverlay");
         const iframe = document.getElementById("gameFrame");
-        if (document.fullscreenElement) document.exitFullscreen();
+
+        // Exit fullscreen if active
+        if (document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
+            if (document.exitFullscreen) document.exitFullscreen();
+            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+            else if (document.msExitFullscreen) document.msExitFullscreen();
+        }
+
+        // Hide overlay and reset iframe
         iframe.src = "";
         overlay.style.display = "none";
     }
 });
 
+
 // Search filter
-document.getElementById("searchBar").addEventListener("keyup", function () {
+const searchInput = document.getElementById("searchBar");
+searchInput.addEventListener("keyup", function () {
     const value = this.value.toLowerCase();
-    document.querySelectorAll(".game-card").forEach(game => {
+    const games = document.querySelectorAll(".game-card");
+    games.forEach(game => {
         game.style.display = game.textContent.toLowerCase().includes(value) ? "block" : "none";
     });
 });
+
+// Snow effect
+const snow = document.createElement("div");
+snow.className = "snow";
+function makeSnowflake() {
+    const dot = document.createElement("span");
+    dot.style.left = Math.random()*100 + "vw";
+    dot.style.width = dot.style.height = 2 + Math.random()*6 + "px";
+    dot.style.opacity = 0.3 + Math.random()*0.7;
+    dot.style.animationDuration = 3 + Math.random()*5 + "s";
+    snow.appendChild(dot);
+    setTimeout(makeSnowflake, 100);
+}
+makeSnowflake();
+document.body.appendChild(snow);
 </script>
+
 </body>
 </html>
