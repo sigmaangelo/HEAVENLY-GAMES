@@ -117,14 +117,17 @@ enterBtn.onclick = async () => {
   frame.style.display = "block";
 };
 
-/* ===== ESC PANIC ===== */
+/* ===== ESC PANIC (UPDATED) ===== */
 function handleFullscreenChange() {
   const fs =
     document.fullscreenElement ||
     document.webkitFullscreenElement ||
     document.msFullscreenElement;
 
-  if (!fs) {
+  const iframeVisible = frame.style.display === "block";
+
+  // Only panic if fullscreen is exited AND iframe is NOT visible
+  if (!fs && !iframeVisible) {
     window.location.href = "about:blank";
   }
 }
