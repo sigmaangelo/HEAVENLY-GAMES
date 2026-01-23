@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Cloaked Entry</title>
 
 <style>
@@ -91,14 +91,22 @@ const enterBtn = document.getElementById("enterBtn");
 const frame = document.getElementById("homeFrame");
 const msg = document.getElementById("msg");
 
-/* ===== ENTER FULLSCREEN ===== */
+/* ===== FULLSCREEN ENTRY ===== */
+async function forceFullscreen() {
+  if (!document.fullscreenElement) {
+    try {
+      await document.documentElement.requestFullscreen();
+    } catch {}
+  }
+}
+
 cloakBtn.onclick = async () => {
-  await document.documentElement.requestFullscreen();
+  await forceFullscreen();
   cloakBtn.style.display = "none";
   passwordBox.style.display = "block";
 };
 
-/* ===== PASSWORD → SERVER AUTH ===== */
+/* ===== PASSWORD AUTH ===== */
 enterBtn.onclick = async () => {
   const pass = document.getElementById("pass").value;
 
@@ -117,35 +125,25 @@ enterBtn.onclick = async () => {
   frame.style.display = "block";
 };
 
-/* ===== ESC PANIC ===== */
-function panicAllowed() {
-  if (!frame.src) return true;
+/* ========= PAGE-LOCAL PANIC MODE ========= */
+(() => {
+  // ESC panic
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      window.location.replace("about:blank");
+    }
+  });
 
-  const url = frame.src;
+  // Exit fullscreen panic
+  document.addEventListener("fullscreenchange", () => {
+    if (!document.fullscreenElement) {
+      window.location.replace("about:blank");
+    }
+  });
 
-  // Panic only on these pages
-  return (
-    url.includes("/home.html") ||
-    url.includes("/chat.html")
-  );
-}
-
-function handleFullscreenChange() {
-  const fs =
-    document.fullscreenElement ||
-    document.webkitFullscreenElement ||
-    document.msFullscreenElement;
-
-  // If fullscreen exited AND panic is allowed
-  if (!fs && panicAllowed()) {
-    window.location.href = "about:blank";
-  }
-}
-
-document.addEventListener("fullscreenchange", handleFullscreenChange);
-document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
-document.addEventListener("MSFullscreenChange", handleFullscreenChange);
-
+  // Enforce fullscreen (index.html ONLY)
+  setInterval(forceFullscreen, 1000);
+})();
 </script>
 
 </body>
