@@ -14,3 +14,20 @@ The Devolopers are not responsible if a students use of this websit does not com
    <p> For More Info Visit this oficial document:</p><a class="panel" href="https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title17-section107&num=0&edition=prelim">17 U.S. Code § 107 - Limitations on exclusive rights:</a> 
 
 </h1>
+<script>
+(() => {
+  // ESC panic
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      window.location.replace("about:blank");
+    }
+  });
+
+  // Exit fullscreen panic
+  document.addEventListener("fullscreenchange", () => {
+    if (!document.fullscreenElement) {
+      window.location.replace("about:blank");
+    }
+  });
+})();
+</script>
