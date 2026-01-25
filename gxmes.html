@@ -21,6 +21,10 @@
     #gameOverlay.active {
     display: flex;
 }
+    #gameOverlay {
+    outline: none;
+}
+
 
 * { margin:0; padding:0; box-sizing:border-box; font-family:sans-serif; }
 
@@ -381,8 +385,11 @@ const iframe = document.getElementById("gameFrame");
 const backBtn = document.getElementById("backBtn");
 const fullscreenBtn = document.getElementById("fullscreenBtn");
 
+/* Make overlay focusable so keyboard works */
+overlay.tabIndex = -1;
+
 /* -------------------------
-   OPEN GAME (NORMAL MODE)
+   OPEN GAME
 -------------------------- */
 document.querySelectorAll(".game-card").forEach(card => {
     card.addEventListener("click", () => {
@@ -390,11 +397,14 @@ document.querySelectorAll(".game-card").forEach(card => {
         overlay.style.display = "flex";
         overlay.classList.remove("css-fullscreen");
         document.body.style.overflow = "hidden";
+
+        // force focus so panic key works
+        overlay.focus();
     });
 });
 
 /* -------------------------
-   CLOSE GAME (BACK BUTTON)
+   BACK BUTTON
 -------------------------- */
 backBtn.onclick = () => {
     iframe.src = "";
@@ -408,16 +418,24 @@ backBtn.onclick = () => {
 -------------------------- */
 fullscreenBtn.onclick = () => {
     overlay.classList.add("css-fullscreen");
+
+    // refocus overlay so iframe can't steal keys
+    overlay.focus();
 };
 
 /* -------------------------
-   ` KEY = EXIT CSS FULLSCREEN ONLY
+   PANIC KEY — ` (CAPTURE MODE)
+   EXIT CSS FULLSCREEN ONLY
 -------------------------- */
-document.addEventListener("keydown", (e) => {
-    if (e.key === "`" && overlay.style.display === "flex") {
+window.addEventListener("keydown", (e) => {
+    if (e.key === "`" && overlay.classList.contains("css-fullscreen")) {
+        e.preventDefault();
         overlay.classList.remove("css-fullscreen");
+
+        // refocus overlay so keys keep working
+        overlay.focus();
     }
-});
+}, true);
 
 /* -------------------------
    SEARCH FILTER
@@ -431,6 +449,23 @@ searchInput.addEventListener("keyup", function () {
             : "none";
     });
 });
+
+/* -------------------------
+   SNOW EFFECT
+-------------------------- */
+const snow = document.createElement("div");
+snow.className = "snow";
+function makeSnowflake() {
+    const dot = document.createElement("span");
+    dot.style.left = Math.random()*100 + "vw";
+    dot.style.width = dot.style.height = 2 + Math.random()*6 + "px";
+    dot.style.opacity = 0.3 + Math.random()*0.7;
+    dot.style.animationDuration = 3 + Math.random()*5 + "s";
+    snow.appendChild(dot);
+    setTimeout(makeSnowflake, 100);
+}
+makeSnowflake();
+document.body.appendChild(snow);
 </script>
 
 
