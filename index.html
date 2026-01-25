@@ -3,17 +3,19 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HEAVENLY</title>
+<title>Cloaked Entry</title>
+
 <style>
 html, body {
   margin: 0;
   width: 100%;
   height: 100%;
-  background:#0d0d0d;
+  background: #0d0d0d;
   color: white;
   font-family: Arial, sans-serif;
   overflow: hidden;
 }
+
 #cloakBtn {
   padding: 20px;
   font-size: 1.5em;
@@ -89,8 +91,6 @@ const enterBtn = document.getElementById("enterBtn");
 const frame = document.getElementById("homeFrame");
 const msg = document.getElementById("msg");
 
-let panicEnabled = false;
-
 /* ===== ENTER FULLSCREEN ===== */
 cloakBtn.onclick = async () => {
   await document.documentElement.requestFullscreen();
@@ -117,37 +117,21 @@ enterBtn.onclick = async () => {
   frame.style.display = "block";
 };
 
-/* ===== ESC OR FULLSCREEN PANIC (ONLY WHEN games.html IS LOADED) ===== */
-function handlePanic() {
-  if (frame.src.includes("games.html")) {
-    frame.src = "";          // hide iframe
-    frame.style.display = "none";
-    panicEnabled = false;
-  }
-}
-
-// Listen for ESC key
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && panicEnabled) handlePanic();
-});
-
-// Listen for fullscreen exit
+/* ===== ESC PANIC ===== */
 function handleFullscreenChange() {
   const fs =
     document.fullscreenElement ||
     document.webkitFullscreenElement ||
     document.msFullscreenElement;
 
-  if (!fs && panicEnabled) handlePanic();
+  if (!fs) {
+    window.location.href = "about:blank";
+  }
 }
 
 document.addEventListener("fullscreenchange", handleFullscreenChange);
 document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
 document.addEventListener("MSFullscreenChange", handleFullscreenChange);
-
-frame.addEventListener("load", () => {
-  panicEnabled = frame.src.includes("games.html");
-});
 </script>
 
 </body>
