@@ -3,140 +3,39 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Games Portal</title>
 
 <style>
-/* ====== Styles are mostly unchanged from your version ====== */
-* { margin:0; padding:0; box-sizing:border-box; font-family:sans-serif; }
-body {
-    height:100vh;
-    background: linear-gradient(135deg, #0a0f1f, #08203e);
-    color:white;
-    text-align:center;
-    overflow-x:hidden;
+html, body {
+  margin:0; padding:0;
+  width:100%; height:100%;
+  background:#0a0a0a; 
+  color:white;
+  font-family: Arial, sans-serif;
+  overflow:hidden;
 }
-button, a.game-btn {
-    background: #1a1f29;
-    color: #dddddd;
-    border: 2px solid #5C4033;
-    padding: 12px 20px;
-    border-radius: 10px;
-    display: inline-block;
-    margin: 8px;
-    font-size: 18px;
-    text-decoration: none;
-    cursor: pointer;
-    transition: 0.25s;
-    width: 640px;
-    text-shadow: 0.5px 0.5px orange;
-    text-align: center;
+
+header {
+  padding:20px;
+  text-align:center;
 }
-button:hover, a.game-btn:hover {
-    background: #c98c53;
-    color: black;
-    text-shadow: 2px 2px orange;
-    box-shadow: 0 0 28px #FF5C00;
-    border: 2px solid rgba(0,0,0, 0.75);
-    transform: scale(1.05);
+
+button#panicBtn {
+  position: fixed;
+  top: 20px; right: 20px;
+  padding: 12px 20px;
+  font-size: 16px;
+  background: red;
+  color: white;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  z-index:999;
 }
-header { padding:40px 20px 10px; }
-h1 { font-size:2.5rem; color:#00ffc8; text-shadow:0 0 10px #00ffc8; }
-#searchBar {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(0, 255, 200, 0.3);
-    outline: none;
-    color: #00ffc8;
-    font-size: 1.1rem;
-    padding: 14px 20px;
-    border-radius: 12px;
-    width: min(320px, 85%);
-    margin: 20px auto;
-    text-align: center;
-    transition: 0.3s ease;
-    box-shadow: 0 0 10px rgba(0, 255, 200, 0.15);
-    display: block;
-}
-#searchBar::placeholder { color: rgba(0, 255, 200, 0.6); }
-#searchBar:hover, #searchBar:focus {
-    transform: scale(1.05);
-    border: 1px solid #00ffc8;
-    box-shadow:0 0 10px #00ffc8, 0 0 20px rgba(0, 255, 200, 0.5);
-}
-.game-grid {
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-    gap:80px;
-    padding:20px;
-}
-.game-card {
-    background: rgba(255,255,255,0.05);
-    border:1px solid rgba(0,255,200,0.2);
-    border-radius:10px;
-    padding:20px;
-    cursor:pointer;
-    transition:0.3s;
-    text-decoration:none;
-    color:white;
-    min-width:200px;
-}
-.game-card:hover { transform:translateY(-5px); box-shadow:0 0 15px rgba(0,255,200,0.3); }
-footer { margin:30px 0; opacity:0.6; font-size:0.9rem; }
-.snow { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:10; }
-.snow span {
-    position:absolute;
-    top:-10px;
-    width:5px; height:5px;
-    background:white;
-    border-radius:50%;
-    opacity:0.7;
-    animation-name:fall;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-}
-@keyframes fall {
-    0% { transform: translateY(-10px) translateX(0); }
-    100% { transform: translateY(110vh) translateX(20px); }
-}
-#santa { position:absolute; width:260px; top:40px; left:-400px; z-index:20; }
-#gameOverlay {
-    position: fixed;
-    top:0; left:0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0,0,0,0.95);
-    display: none;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    z-index: 999;
-}
-#gameControls {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 15px 30px;
-    background: rgba(0,0,0,0.7);
-}
-#gameControls button {
-    font-size: 18px;
-    padding: 10px 20px;
-    border-radius: 8px;
-    border: 2px solid #00ffc8;
-    background: #1a1f29;
-    color: #00ffc8;
-    cursor: pointer;
-    transition: 0.25s;
-}
-#gameControls button:hover {
-    background: #00ffc8;
-    color: black;
-    transform: scale(1.05);
-}
-#gameFrame {
-    width: 90%;
-    height: calc(100% - 60px);
-    border: none;
-    margin-top: 10px;
-    border-radius: 8px;
+
+iframe#gameFrame {
+  width:100%; height:100%;
+  border:none;
 }
 </style>
 </head>
@@ -144,102 +43,39 @@ footer { margin:30px 0; opacity:0.6; font-size:0.9rem; }
 <body>
 
 <header>
-    <h1>SNOWY UPDATE! Heavenly Games!</h1>
-    <h2>PRESS THE ` KEY TO EXIT THE GAME YOU'RE PLAYING</h2>
-    <input type="text" id="searchBar" placeholder="Search games...">
+  <h1>Games Portal</h1>
+  <p>Press ESC at any time to activate panic!</p>
 </header>
 
-<div id="santa"></div>
+<button id="panicBtn">PANIC</button>
 
-<section class="game-grid">
-    <a class="game-card" data-url="newgames/candycrush/">Candy Crush</a>
-    <a class="game-card" data-url="1v1lol/">1v1lol</a>
-    <a class="game-card" data-url="tap/">Tap</a>
-    <a class="game-card" data-url="newgames/stackCode/">Stack</a>
-    <a class="game-card" data-url="newgames/2048code/">2048</a>
-</section>
-
-<div id="gameOverlay">
-    <div id="gameControls">
-        <button id="backBtn">⬅ Back</button>
-        <button id="fullscreenBtn">⛶ Fullscreen</button>
-    </div>
-    <iframe id="gameFrame" src=""></iframe>
-</div>
-
-<footer>© 2026 Snowy Update — All Rights Reserved</footer>
+<iframe id="gameFrame" src="newgames/candycrush/" allowfullscreen></iframe>
 
 <script>
-// Overlay & game logic
-const overlay = document.getElementById("gameOverlay");
-const iframe = document.getElementById("gameFrame");
-
-document.querySelectorAll(".game-card").forEach(card => {
-    card.addEventListener("click", () => {
-        iframe.src = card.dataset.url;
-        overlay.style.display = "flex";
-
-        // Enable panic for this game
-        panicEnabled = true;
-    });
-});
-
-document.getElementById("backBtn").onclick = () => {
-    iframe.src = "";
-    overlay.style.display = "none";
-    panicEnabled = false;
-};
-
-document.getElementById("fullscreenBtn").onclick = () => {
-    if (iframe.requestFullscreen) iframe.requestFullscreen();
-    else if (iframe.webkitRequestFullscreen) iframe.webkitRequestFullscreen();
-    else if (iframe.msRequestFullscreen) iframe.msRequestFullscreen();
-};
-
-// Backtick to exit overlay
-document.addEventListener("keydown", (e) => {
-    if (e.key === "`") {
-        if (document.fullscreenElement) document.exitFullscreen?.();
-        iframe.src = "";
-        overlay.style.display = "none";
-        panicEnabled = false;
-    }
-});
-
-// ESC panic
-let panicEnabled = false;
-function handleFullscreenChange() {
-    if (!document.fullscreenElement && panicEnabled) {
-        window.location.href = "about:blank";
-    }
+// PANIC FUNCTION: hides everything and redirects to blank page
+function panic() {
+    document.body.innerHTML = "";  // removes all content
+    window.location.href = "about:blank"; // optional: blank page
 }
-document.addEventListener("fullscreenchange", handleFullscreenChange);
-document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
-document.addEventListener("MSFullscreenChange", handleFullscreenChange);
 
-// Search filter
-const searchInput = document.getElementById("searchBar");
-searchInput.addEventListener("keyup", function () {
-    const value = this.value.toLowerCase();
-    document.querySelectorAll(".game-card").forEach(game => {
-        game.style.display = game.textContent.toLowerCase().includes(value) ? "block" : "none";
-    });
+// Panic button click
+document.getElementById("panicBtn").addEventListener("click", panic);
+
+// ESC key triggers panic
+document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape") panic();
 });
 
-// Snow effect
-const snow = document.createElement("div");
-snow.className = "snow";
-function makeSnowflake() {
-    const dot = document.createElement("span");
-    dot.style.left = Math.random()*100 + "vw";
-    dot.style.width = dot.style.height = 2 + Math.random()*6 + "px";
-    dot.style.opacity = 0.3 + Math.random()*0.7;
-    dot.style.animationDuration = 3 + Math.random()*5 + "s";
-    snow.appendChild(dot);
-    setTimeout(makeSnowflake, 100);
-}
-makeSnowflake();
-document.body.appendChild(snow);
+// Fullscreen exit also triggers panic
+document.addEventListener("fullscreenchange", () => {
+    if (!document.fullscreenElement) panic();
+});
+document.addEventListener("webkitfullscreenchange", () => {
+    if (!document.webkitFullscreenElement) panic();
+});
+document.addEventListener("MSFullscreenChange", () => {
+    if (!document.msFullscreenElement) panic();
+});
 </script>
 
 </body>
