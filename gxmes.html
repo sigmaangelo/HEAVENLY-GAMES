@@ -1,80 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Games Portal</title>
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Games | HEAVENLYGAMES</title>
 <style>
-html, body {
-  margin:0; padding:0;
-  width:100%; height:100%;
-  background:#0a0a0a; 
-  color:white;
-  font-family: Arial, sans-serif;
-  overflow:hidden;
-}
-
-header {
-  padding:20px;
-  text-align:center;
-}
-
-button#panicBtn {
-  position: fixed;
-  top: 20px; right: 20px;
-  padding: 12px 20px;
-  font-size: 16px;
-  background: red;
-  color: white;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
-  z-index:999;
-}
-
-iframe#gameFrame {
-  width:100%; height:100%;
-  border:none;
-}
+  html, body {
+    margin: 0; padding: 0;
+    width: 100%; height: 100%;
+    background: #0d0d0d;
+    color: white;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+  }
+  h1 { text-align: center; padding: 20px; color: #00ffc8; }
+  .game-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; padding: 20px; }
+  .game-btn {
+    padding: 15px 25px;
+    border-radius: 10px;
+    background: black;
+    color: white;
+    border: 2px solid #00ffc8;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 16px;
+  }
+  .game-btn:hover { background: #00ffc8; color: black; transform: scale(1.05); }
 </style>
 </head>
-
 <body>
 
-<header>
-  <h1>Games Portal</h1>
-  <p>Press ESC at any time to activate panic!</p>
-</header>
+<h1>Heavenly Games - Select Your Game</h1>
 
-<button id="panicBtn">PANIC</button>
-
-<iframe id="gameFrame" src="newgames/candycrush/" allowfullscreen></iframe>
+<div class="game-list">
+  <a class="game-btn" href="newgames/candycrush/" target="_blank">Candy Crush</a>
+  <a class="game-btn" href="1v1lol/" target="_blank">1v1lol</a>
+  <a class="game-btn" href="tap/" target="_blank">Tap</a>
+  <!-- Add more games here -->
+</div>
 
 <script>
-// PANIC FUNCTION: hides everything and redirects to blank page
-function panic() {
-    document.body.innerHTML = "";  // removes all content
-    window.location.href = "about:blank"; // optional: blank page
-}
-
-// Panic button click
-document.getElementById("panicBtn").addEventListener("click", panic);
-
-// ESC key triggers panic
-document.addEventListener("keydown", function(e) {
-    if (e.key === "Escape") panic();
+// Request fullscreen immediately when page loads
+document.addEventListener("DOMContentLoaded", () => {
+    if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
 });
 
-// Fullscreen exit also triggers panic
-document.addEventListener("fullscreenchange", () => {
-    if (!document.fullscreenElement) panic();
-});
-document.addEventListener("webkitfullscreenchange", () => {
-    if (!document.webkitFullscreenElement) panic();
-});
-document.addEventListener("MSFullscreenChange", () => {
-    if (!document.msFullscreenElement) panic();
+// Panic key (ESC)
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+        // Go to safe page immediately
+        window.location.href = "about:blank";
+    }
 });
 </script>
 
