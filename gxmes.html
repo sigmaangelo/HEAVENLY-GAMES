@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
+    #gameOverlay.active {
+    display: flex;
+}
+
 * { margin:0; padding:0; box-sizing:border-box; font-family:sans-serif; }
 
 body {
@@ -357,83 +361,81 @@ footer { margin:30px 0; opacity:0.6; font-size:0.9rem; }
 <footer>© 2026 Snowy Update — All Rights Reserved</footer>
 
 <script>
-// Open game in overlay
+const overlay = document.getElementById("gameOverlay");
+const iframe = document.getElementById("gameFrame");
+const backBtn = document.getElementById("backBtn");
+const fullscreenBtn = document.getElementById("fullscreenBtn");
+
+/* -------------------------
+   OPEN GAME (CSS FULLSCREEN)
+-------------------------- */
 document.querySelectorAll(".game-card").forEach(card => {
     card.addEventListener("click", () => {
-        const overlay = document.getElementById("gameOverlay");
-        const iframe = document.getElementById("gameFrame");
         iframe.src = card.dataset.url;
-        overlay.style.display = "flex";
+        overlay.classList.add("active");
+        document.body.style.overflow = "hidden";
     });
 });
 
-// Back button
-document.getElementById("backBtn").onclick = () => {
-    const overlay = document.getElementById("gameOverlay");
-    const iframe = document.getElementById("gameFrame");
+/* -------------------------
+   CLOSE GAME (PANIC EXIT)
+-------------------------- */
+function closeGame() {
     iframe.src = "";
-    overlay.style.display = "none";
+    overlay.classList.remove("active");
+    document.body.style.overflow = "";
+}
+
+/* Back button */
+backBtn.onclick = closeGame;
+
+/* Fullscreen button (visual only) */
+fullscreenBtn.onclick = () => {
+    // Already fullscreen via CSS — intentionally empty
 };
 
-// Fullscreen button
-document.getElementById("fullscreenBtn").onclick = () => {
-    const iframe = document.getElementById("gameFrame");
-    if (iframe.requestFullscreen) iframe.requestFullscreen();
-    else if (iframe.webkitRequestFullscreen) iframe.webkitRequestFullscreen();
-    else if (iframe.msRequestFullscreen) iframe.msRequestFullscreen();
-};
-
-// Press ` key to exit fullscreen and go back
+/* -------------------------
+   ` KEY = PANIC BUTTON
+-------------------------- */
 document.addEventListener("keydown", (e) => {
-    if (e.key === "`") { // the backtick key
-        const overlay = document.getElementById("gameOverlay");
-        const iframe = document.getElementById("gameFrame");
-
-        // Exit fullscreen if active
-        if (document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
-            if (document.exitFullscreen) document.exitFullscreen();
-            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-            else if (document.msExitFullscreen) document.msExitFullscreen();
-        }
-
-        // Hide overlay and reset iframe
-        iframe.src = "";
-        overlay.style.display = "none";
+    if (e.key === "`" && overlay.classList.contains("active")) {
+        closeGame();
     }
 });
 
-
-// Search filter
+/* -------------------------
+   SEARCH FILTER
+-------------------------- */
 const searchInput = document.getElementById("searchBar");
 searchInput.addEventListener("keyup", function () {
     const value = this.value.toLowerCase();
-    const games = document.querySelectorAll(".game-card");
-    games.forEach(game => {
-        game.style.display = game.textContent.toLowerCase().includes(value) ? "block" : "none";
+    document.querySelectorAll(".game-card").forEach(game => {
+        game.style.display = game.textContent.toLowerCase().includes(value)
+            ? "block"
+            : "none";
     });
 });
-// Panic key (ESC)
-// document.addEventListener("keydown", (e) => {
-//     if (e.key === "Escape") {
-//         // Go to safe page immediately
-//         window.location.href = "about:blank";
-//     }
-// });
-// Snow effect
+
+/* -------------------------
+   SNOW EFFECT
+-------------------------- */
 const snow = document.createElement("div");
 snow.className = "snow";
+
 function makeSnowflake() {
     const dot = document.createElement("span");
-    dot.style.left = Math.random()*100 + "vw";
-    dot.style.width = dot.style.height = 2 + Math.random()*6 + "px";
-    dot.style.opacity = 0.3 + Math.random()*0.7;
-    dot.style.animationDuration = 3 + Math.random()*5 + "s";
+    dot.style.left = Math.random() * 100 + "vw";
+    dot.style.width = dot.style.height = 2 + Math.random() * 6 + "px";
+    dot.style.opacity = 0.3 + Math.random() * 0.7;
+    dot.style.animationDuration = 3 + Math.random() * 5 + "s";
     snow.appendChild(dot);
     setTimeout(makeSnowflake, 100);
 }
+
 makeSnowflake();
 document.body.appendChild(snow);
 </script>
+
 
 </body>
 </html>
