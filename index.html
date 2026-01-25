@@ -119,27 +119,38 @@ enterBtn.onclick = async () => {
   frame.style.display = "block";
 };
 
-/* ===== RECEIVE PANIC STATE FROM IFRAMES ===== */
-window.addEventListener("message", (e) => {
-  if (e.data === "ENABLE_PANIC") panicEnabled = true;
-  if (e.data === "DISABLE_PANIC") panicEnabled = false;
+/* ===== ESC OR FULLSCREEN PANIC (ONLY WHEN games.html IS LOADED) ===== */
+function handlePanic() {
+  if (frame.src.includes("games.html")) {
+    frame.src = "";          // hide iframe
+    frame.style.display = "none";
+    panicEnabled = false;
+  }
+}
+
+// Listen for ESC key
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && panicEnabled) handlePanic();
 });
 
-/* ===== ESC PANIC (ONLY WHEN ENABLED) ===== */
+// Listen for fullscreen exit
 function handleFullscreenChange() {
   const fs =
     document.fullscreenElement ||
     document.webkitFullscreenElement ||
     document.msFullscreenElement;
 
-  if (!fs && panicEnabled) {
-    window.location.href = "about:blank";
-  }
+  if (!fs && panicEnabled) handlePanic();
 }
 
 document.addEventListener("fullscreenchange", handleFullscreenChange);
 document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
 document.addEventListener("MSFullscreenChange", handleFullscreenChange);
+
+/* ===== ENABLE/DISABLE PANIC WHEN games.html IS LOADED ===== */
+frame.addEventListener("load", () => {
+  panicEnabled = frame.src.includes("games.html");
+});
 </script>
 
 </body>
