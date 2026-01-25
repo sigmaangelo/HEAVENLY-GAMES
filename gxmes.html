@@ -413,7 +413,13 @@ searchInput.addEventListener("keyup", function () {
         game.style.display = game.textContent.toLowerCase().includes(value) ? "block" : "none";
     });
 });
-
+// Panic key (ESC)
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+        // Go to safe page immediately
+        window.location.href = "about:blank";
+    }
+});
 // Snow effect
 const snow = document.createElement("div");
 snow.className = "snow";
