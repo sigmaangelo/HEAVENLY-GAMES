@@ -146,7 +146,6 @@ document.addEventListener("fullscreenchange", handleFullscreenChange);
 document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
 document.addEventListener("MSFullscreenChange", handleFullscreenChange);
 
-/* ===== ENABLE/DISABLE PANIC WHEN games.html IS LOADED ===== */
 frame.addEventListener("load", () => {
   panicEnabled = frame.src.includes("games.html");
 });
