@@ -367,39 +367,40 @@ const backBtn = document.getElementById("backBtn");
 const fullscreenBtn = document.getElementById("fullscreenBtn");
 
 /* -------------------------
-   OPEN GAME (CSS FULLSCREEN)
+   OPEN GAME (NORMAL MODE)
 -------------------------- */
 document.querySelectorAll(".game-card").forEach(card => {
     card.addEventListener("click", () => {
         iframe.src = card.dataset.url;
-        overlay.classList.add("active");
+        overlay.style.display = "flex";
+        overlay.classList.remove("css-fullscreen");
         document.body.style.overflow = "hidden";
     });
 });
 
 /* -------------------------
-   CLOSE GAME (PANIC EXIT)
+   CLOSE GAME (BACK BUTTON)
 -------------------------- */
-function closeGame() {
+backBtn.onclick = () => {
     iframe.src = "";
-    overlay.classList.remove("active");
+    overlay.style.display = "none";
+    overlay.classList.remove("css-fullscreen");
     document.body.style.overflow = "";
-}
-
-/* Back button */
-backBtn.onclick = closeGame;
-
-/* Fullscreen button (visual only) */
-fullscreenBtn.onclick = () => {
-    // Already fullscreen via CSS — intentionally empty
 };
 
 /* -------------------------
-   ` KEY = PANIC BUTTON
+   ENTER CSS FULLSCREEN
+-------------------------- */
+fullscreenBtn.onclick = () => {
+    overlay.classList.add("css-fullscreen");
+};
+
+/* -------------------------
+   ` KEY = EXIT CSS FULLSCREEN ONLY
 -------------------------- */
 document.addEventListener("keydown", (e) => {
-    if (e.key === "`" && overlay.classList.contains("active")) {
-        closeGame();
+    if (e.key === "`" && overlay.style.display === "flex") {
+        overlay.classList.remove("css-fullscreen");
     }
 });
 
@@ -415,26 +416,8 @@ searchInput.addEventListener("keyup", function () {
             : "none";
     });
 });
-
-/* -------------------------
-   SNOW EFFECT
--------------------------- */
-const snow = document.createElement("div");
-snow.className = "snow";
-
-function makeSnowflake() {
-    const dot = document.createElement("span");
-    dot.style.left = Math.random() * 100 + "vw";
-    dot.style.width = dot.style.height = 2 + Math.random() * 6 + "px";
-    dot.style.opacity = 0.3 + Math.random() * 0.7;
-    dot.style.animationDuration = 3 + Math.random() * 5 + "s";
-    snow.appendChild(dot);
-    setTimeout(makeSnowflake, 100);
-}
-
-makeSnowflake();
-document.body.appendChild(snow);
 </script>
+
 
 
 </body>
