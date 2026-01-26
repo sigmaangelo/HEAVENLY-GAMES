@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Games</title>
+
+<style>
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  background: #0d0d0d;
+  color: white;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
+
+/* ===== FULLSCREEN GATE ===== */
+#gate {
+  position: fixed;
+  inset: 0;
+  background: #0d0d0d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999999;
+}
+
+#fsBtn {
+  padding: 22px 40px;
+  font-size: 1.6em;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+}
+
+/* ===== REAL CONTENT (HIDDEN INITIALLY) ===== */
+#app {
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+</style>
+</head>
+
+<body>
+
+<!-- FULLSCREEN ENTRY GATE -->
+<div id="gate">
+  <button id="fsBtn">CLOAK / FULLSCREEN</button>
+</div>
+
+<!-- ========================= -->
+<!-- 🔽 PUT YOUR REAL GAMES UI HERE 🔽 -->
+<!-- ========================= -->
+<div id="app">
+  <!-- EVERYTHING that was previously in gxmes.html goes here -->
+
+  <!-- example -->
+  <!-- <iframe src="games/index.html"></iframe> -->
+
+</div>
+
+<script>
+const fsBtn = document.getElementById("fsBtn");
+const gate = document.getElementById("gate");
+const app = document.getElementById("app");
+
+/* ===== ENTER FULLSCREEN ===== */
+fsBtn.onclick = async () => {
+  try {
+    await document.documentElement.requestFullscreen();
+  } catch (e) {
+    console.warn("Fullscreen failed:", e);
+  }
+
+  gate.style.display = "none";
+  app.style.display = "block";
+};
+
+/* ===== ESC / PANIC HANDLER ===== */
+function onFsChange() {
+  if (!document.fullscreenElement) {
+    // panic behavior
+    window.location.href = "about:blank";
+    // OR: window.close();
+    // OR: location.replace("https://google.com");
+  }
+}
+
+document.addEventListener("fullscreenchange", onFsChange);
+document.addEventListener("webkitfullscreenchange", onFsChange);
+</script>
+
+</body>
+</html>
