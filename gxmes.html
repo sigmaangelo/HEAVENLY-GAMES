@@ -347,7 +347,7 @@ footer { margin:30px 0; opacity:0.6; font-size:0.9rem; }
 <a class="game-card" data-url="https://heavenlyselenite.deno.dev/ovo/">ovo</a>
 <a class="game-card" data-url="https://heavenlyselenite.deno.dev/retrobowlcollege/">retrobowlcollege</a>
 <a class="game-card" data-url="https://heavenlyselenite.deno.dev/rocketleague/">rocketleague</a>
-<a class="game-card" data-url="https://heavenlyselenite.deno.dev/ruffle/">ruffle</a>
+<!-- <a class="game-card" data-url="https://heavenlyselenite.deno.dev/ruffle/">ruffle emulator</a> -->
 <a class="game-card" data-url="https://heavenlyselenite.deno.dev/russiancardriver/">russiancardriver</a>
 <a class="game-card" data-url="https://heavenlyselenite.deno.dev/slope/">slope</a>
 <a class="game-card" data-url="https://heavenlyselenite.deno.dev/slope3/">slope3</a>
@@ -362,7 +362,9 @@ footer { margin:30px 0; opacity:0.6; font-size:0.9rem; }
 <a class="game-card" data-url="https://heavenlyselenite.deno.dev/webretro/">webretro</a>
 <a class="game-card" data-url="https://heavenlyselenite.deno.dev/win11/">win11</a>
 <a class="game-card" data-url="https://heavenlyselenite.deno.dev/yohoho/">yohoho</a>
-<a class="game-card" data-url="https://heavenlyselenite.deno.dev/zombocalypse/">zombocalypse</a> -->
+<a class="game-card" data-url="https://heavenlyselenite.deno.dev/zombocalypse/">zombocalypse</a> 
+    <a class="game-card" data-url="https://stickslash.wasmer.app/stick/">Stickslasher</a> 
+
 <a class="game-card" data-url="https://supersoccerl.deno.dev">Super liquid soccer</a>
 
 </section>
@@ -388,9 +390,6 @@ const fullscreenBtn = document.getElementById("fullscreenBtn");
 /* Make overlay focusable so keyboard works */
 overlay.tabIndex = -1;
 
-/* -------------------------
-   OPEN GAME
--------------------------- */
 document.querySelectorAll(".game-card").forEach(card => {
     card.addEventListener("click", () => {
         iframe.src = card.dataset.url;
@@ -403,9 +402,7 @@ document.querySelectorAll(".game-card").forEach(card => {
     });
 });
 
-/* -------------------------
-   BACK BUTTON
--------------------------- */
+
 backBtn.onclick = () => {
     iframe.src = "";
     overlay.style.display = "none";
@@ -413,9 +410,6 @@ backBtn.onclick = () => {
     document.body.style.overflow = "";
 };
 
-/* -------------------------
-   ENTER CSS FULLSCREEN
--------------------------- */
 fullscreenBtn.onclick = () => {
     overlay.classList.add("css-fullscreen");
 
@@ -423,10 +417,7 @@ fullscreenBtn.onclick = () => {
     overlay.focus();
 };
 
-/* -------------------------
-   PANIC KEY — ` (CAPTURE MODE)
-   EXIT CSS FULLSCREEN ONLY
--------------------------- */
+
 window.addEventListener("keydown", (e) => {
     if (e.key === "`" && overlay.classList.contains("css-fullscreen")) {
         e.preventDefault();
@@ -437,9 +428,7 @@ window.addEventListener("keydown", (e) => {
     }
 }, true);
 
-/* -------------------------
-   SEARCH FILTER
--------------------------- */
+
 const searchInput = document.getElementById("searchBar");
 searchInput.addEventListener("keyup", function () {
     const value = this.value.toLowerCase();
@@ -450,9 +439,6 @@ searchInput.addEventListener("keyup", function () {
     });
 });
 
-/* -------------------------
-   SNOW EFFECT
--------------------------- */
 const snow = document.createElement("div");
 snow.className = "snow";
 function makeSnowflake() {
