@@ -156,10 +156,17 @@
     document.getElementById('chatBtn').addEventListener('click', () => loadInIframe('chat.html'));
     document.getElementById('disclaimerBtn').addEventListener('click', () => loadInIframe('disclaimer.html'));
 
-    // 🔥 ONLY CHANGE: Games opens in NEW TAB
-    document.getElementById('gamesBtn').addEventListener('click', () => {
-      window.open('gxmes.html', '_blank');
-    });
+  document.getElementById('gamesBtn').addEventListener('click', () => {
+    const win = window.open('gxmes.html', '_blank');
+
+    const interval = setInterval(() => {
+      if (win && win.postMessage) {
+        win.postMessage({ type: 'REQUEST_FULLSCREEN' }, '*');
+        clearInterval(interval);
+      }
+    }, 100);
+  });
+
 
     // Custom cursor
     document.addEventListener('mousemove', (e) => {
