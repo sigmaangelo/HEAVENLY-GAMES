@@ -6,31 +6,6 @@
 
     
 <style>
-#cloakScreen {
-    position: fixed;
-    inset: 0;
-    background: #0a0f1f;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10000;
-}
-
-#cloakBtn {
-    background: #1a1f29;
-    color: #00ffc8;
-    border: 2px solid #00ffc8;
-    padding: 20px 36px;
-    font-size: 1.6rem;
-    border-radius: 14px;
-    cursor: pointer;
-    text-shadow: 0 0 10px #00ffc8;
-}
-
-#mainApp {
-    display: none;
-}
-
     /* CSS fullscreen state */
 #gameOverlay.css-fullscreen #gameControls {
     display: none;
@@ -206,33 +181,9 @@ footer { margin:30px 0; opacity:0.6; font-size:0.9rem; }
     border-radius: 8px;
 }
 </style>
-    <script>
-const cloakBtn = document.getElementById("cloakBtn");
-const cloakScreen = document.getElementById("cloakScreen");
-const mainApp = document.getElementById("mainApp");
-
-cloakBtn.onclick = async () => {
-    const el = document.documentElement;
-
-    if (el.requestFullscreen) await el.requestFullscreen();
-    else if (el.webkitRequestFullscreen) await el.webkitRequestFullscreen();
-    else if (el.msRequestFullscreen) await el.msRequestFullscreen();
-
-    cloakScreen.style.display = "none";
-    mainApp.style.display = "block";
-};
-</script>
-
 </head>
 
 <body>
-<!-- CLOAK SCREEN -->
-<div id="cloakScreen">
-    <button id="cloakBtn">CLOAK / FULLSCREEN</button>
-</div>
-
-<!-- REAL APP -->
-<div id="mainApp">
 
 <header>
     <h1>SNOWY UPDATE! Heavenly Games!</h1>
@@ -519,6 +470,6 @@ document.body.appendChild(snow);
 
 
 
-</div>
+
 </body>
 </html>
