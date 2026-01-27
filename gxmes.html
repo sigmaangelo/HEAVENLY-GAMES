@@ -434,6 +434,15 @@ function initGameScripts() {
             overlay.focus();
         });
     });
+     document.querySelectorAll(".game-card-new").forEach(card => {
+        card.addEventListener("click", () => {
+            iframe.src = card.dataset.url;
+            overlay.style.display = "flex";
+            overlay.classList.remove("css-fullscreen");
+            document.body.style.overflow = "hidden";
+            overlay.focus();
+        });
+    });
 
     backBtn.onclick = () => {
         iframe.src = "";
@@ -464,7 +473,15 @@ function initGameScripts() {
                 : "none";
         });
     });
-
+    const searchInput = document.getElementById("searchBar");
+    searchInput.addEventListener("keyup", function () {
+        const value = this.value.toLowerCase();
+        document.querySelectorAll(".game-card-new").forEach(game => {
+            game.style.display = game.textContent.toLowerCase().includes(value)
+                ? "block"
+                : "none";
+        });
+    });
     // Snow effect
     const snow = document.createElement("div");
     snow.className = "snow";
