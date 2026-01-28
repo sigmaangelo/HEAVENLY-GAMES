@@ -193,7 +193,41 @@ footer { margin:30px 0; opacity:0.6; font-size:0.9rem; }
     max-height: 100vh;
     overflow-y: auto;
 }
+/* Game card image support */
+.game-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+/* Dark overlay so text is readable */
+.game-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(0,0,0,0.25),
+        rgba(0,0,0,0.15)
+    );
+    border-radius: 10px;
+}
+
+.game-card span {
+    position: relative;
+    z-index: 1;
+    padding: 10px;
+    font-weight: bold;
+}
+
 </style>
+
 </head>
 <body>
 
@@ -204,11 +238,17 @@ footer { margin:30px 0; opacity:0.6; font-size:0.9rem; }
 
 <!-- Games container -->
 <div id="anel">
-<h1>Sigma Games 🎮</h1>
+<h1>Heavenly Games 🎮</h1>
 <input type="text" id="searchBar" placeholder="Search games..." />
 <section class="game-grid">
-    <a class="game-card" data-url="https://stickslash.wasmer.app/stick/">Stickslasher</a> 
-<a class="game-card" data-url="https://spacewave.wasmer.app/space-waves/">Spacewaves</a> 
+    <a class="game-card" data-url="https://stickslash.wasmer.app/stick/" >Stickslasher</a> 
+    <a class="game-card"
+   data-url="https://spacewave.wasmer.app/space-waves/"
+   data-img="https://spacewavesgame.io/data/image/game/space-waves/space-waves.png">
+   <span>Spacewaves</span>
+</a>
+
+<!--<a class="game-card" data-url="https://spacewave.wasmer.app/space-waves/">Spacewaves</a> -->
 <a class="game-card" data-url="https://escape-road-2.wasmer.app/">Escaperoad2</a> 
 <a class="game-card" data-url="https://supersoccerl.deno.dev">Super liquid soccer</a>
  <a class="game-card" data-url="newgames/candycrush/">Candy Crush</a>
@@ -413,6 +453,15 @@ function initGameScripts() {
 
     overlay.tabIndex = -1;
 
+    /* 🔹 NEW: apply background images from direct links */
+    document.querySelectorAll(".game-card").forEach(card => {
+        const img = card.dataset.img;
+        if (img) {
+            card.style.backgroundImage = `url('${img}')`;
+        }
+    });
+    
+
     document.querySelectorAll(".game-card").forEach(card => {
         card.addEventListener("click", () => {
             iframe.src = card.dataset.url;
@@ -458,10 +507,10 @@ function initGameScripts() {
     snow.className = "snow";
     function makeSnowflake() {
         const dot = document.createElement("span");
-        dot.style.left = Math.random()*100 + "vw";
-        dot.style.width = dot.style.height = 2 + Math.random()*6 + "px";
-        dot.style.opacity = 0.3 + Math.random()*0.7;
-        dot.style.animationDuration = 3 + Math.random()*5 + "s";
+        dot.style.left = Math.random() * 100 + "vw";
+        dot.style.width = dot.style.height = 2 + Math.random() * 6 + "px";
+        dot.style.opacity = 0.3 + Math.random() * 0.7;
+        dot.style.animationDuration = 3 + Math.random() * 5 + "s";
         snow.appendChild(dot);
         setTimeout(makeSnowflake, 100);
     }
@@ -469,5 +518,6 @@ function initGameScripts() {
     document.body.appendChild(snow);
 }
 </script>
+
 </body>
 </html>
