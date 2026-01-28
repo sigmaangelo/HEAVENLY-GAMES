@@ -503,20 +503,7 @@ function initGameScripts() {
     });
 
     // Snow effect
-    const snow = document.createElement("div");
-    snow.className = "snow";
-    function makeSnowflake() {
-        const dot = document.createElement("span");
-        dot.style.left = Math.random() * 100 + "vw";
-        dot.style.width = dot.style.height = 2 + Math.random() * 6 + "px";
-        dot.style.opacity = 0.3 + Math.random() * 0.7;
-        dot.style.animationDuration = 3 + Math.random() * 5 + "s";
-        snow.appendChild(dot);
-        setTimeout(makeSnowflake, 100);
-    }
-    makeSnowflake();
-    document.body.appendChild(snow);
-}
+ 
 </script>
 
 </body>
